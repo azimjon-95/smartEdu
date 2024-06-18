@@ -1,0 +1,23 @@
+.expanded-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.expanded-table td {
+    padding: 5px 16px;
+    border: 1px solid #ddd;
+}
+
+.expanded-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.expanded-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.expanded-table td:first-child {
+    font-weight: bold;
+    background-color: #f2f2f2;
+    width: 20%;
+}
