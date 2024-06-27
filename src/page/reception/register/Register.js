@@ -2,31 +2,10 @@ import React from 'react';
 import { Form, Input, DatePicker, Button, Radio, Select, Row, Col } from 'antd';
 import moment from 'moment';
 import { IoArrowBackOutline } from "react-icons/io5";
+import { subjects } from '../../../utils/subjects';
 import { useNavigate } from 'react-router-dom';
 const { Option, OptGroup } = Select;
 const { Item: FormItem } = Form;
-
-const subjects = [
-    { group: 'Matematika', subjects: ['Algebra', 'Geometriya', 'Matematik analiz'] },
-    { group: 'Fan', subjects: ['Fizika', 'Kimyo', 'Biologiya'] },
-    { group: 'Ijtimoiy fanlar', subjects: ['Tarix', 'Geografiya', 'Sotsiologiya'] },
-    {
-        group: 'Tillar',
-        subjects: [
-            'Ingliz tili (Kattalarga)',
-            'Ingliz tili (Bolalarga)',
-            'Rus tili',
-            'Fransuz tili',
-            'Nemis tili',
-            'Koreys tili'
-        ]
-    },
-    { group: 'Adabiyot va Ona tili', subjects: ['Adabiyot', 'Ona tili'] },
-    { group: 'Dasturlash', subjects: ['Webdasturlash'] },
-    { group: 'Mental', subjects: ['Mental arifmetika'] },
-];
-
-const webDevelopmentSubjects = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js'];
 
 const Register = () => {
     const [form] = Form.useForm();
@@ -140,7 +119,7 @@ const Register = () => {
                             </Radio.Group>
                         </FormItem>
                     </Col>
-                    <Col span={8}>
+                    {/* <Col span={8}>
                         <FormItem
                             name="subject"
                             label="Fanni tanlang"
@@ -178,16 +157,10 @@ const Register = () => {
                                         })}
                                     </OptGroup>
                                 ))}
-                                <OptGroup label="Webdasturlash">
-                                    {webDevelopmentSubjects.map((subject) => (
-                                        <Option key={subject} value={subject.toLowerCase().replace(/ /g, '-')}>
-                                            {subject}
-                                        </Option>
-                                    ))}
-                                </OptGroup>
+
                             </Select>
                         </FormItem>
-                    </Col>
+                    </Col> */}
                 </Row>
 
                 <Row gutter={16}>

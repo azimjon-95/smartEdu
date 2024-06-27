@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import { Table, Button, Space, Modal, Form, Input, message } from 'antd';
+import { Table, Button, Space, Row, Col, Modal, Form, Input, message, Spin, Alert } from 'antd';
 import { useGetAllTeachersQuery, useDeleteTeacherMutation, useUpdateTeacherMutation } from '../../../context/teacherApi'; // Ensure the correct path
 import './teachersTable.css';
 
 const TeachersTable = () => {
-    const { data: teachers, error, isLoading } = useGetAllTeachersQuery();
+    const { data: teachers, error, isLoading, refetch } = useGetAllTeachersQuery();
     const [deleteTeacher] = useDeleteTeacherMutation();
     const [updateTeacher] = useUpdateTeacherMutation();
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [editingTeacher, setEditingTeacher] = useState(null);
     const [form] = Form.useForm();
-
+    console.log(teachers);
     const handleDelete = async (id) => {
         try {
-            await deleteTeacher(id).unwrap();
-            message.success('Teacher deleted successfully');
+            let res = await deleteTeacher(id);
+            console.log(res);
+            message.success('O‘qituvchi muvaffaqiyatli o‘chirildi');
+            refetch();
         } catch (error) {
-            message.error('Failed to delete teacher');
+            message.error('O‘qituvchini o‘chirishda xato yuz berdi');
         }
     };
 
@@ -28,11 +30,13 @@ const TeachersTable = () => {
 
     const handleEditSubmit = async (values) => {
         try {
-            await updateTeacher({ id: editingTeacher.id, ...values }).unwrap();
-            message.success('Teacher updated successfully');
+            await updateTeacher({ id: editingTeacher._id, ...values });
+
+            message.success('O‘qituvchi muvaffaqiyatli yangilandi');
             setIsEditModalVisible(false);
+            refetch();
         } catch (error) {
-            message.error('Failed to update teacher');
+            message.error('O‘qituvchini yangilashda xato yuz berdi');
         }
     };
 
@@ -50,7 +54,7 @@ const TeachersTable = () => {
             key: 'firstName',
             render: (text, record) => (
                 <Space size="middle">
-                    {record.firstName}{record.lastName}{record.middleName}
+                    {record.firstName} {record.middleName} {record.lastName}
                 </Space>
             )
         },
@@ -66,17 +70,17 @@ const TeachersTable = () => {
             key: 'phone',
         },
         {
-            title: 'Fanni',
+            title: 'Fani',
             dataIndex: 'subject',
             key: 'subject',
         },
         {
-            title: 'Actions',
+            title: 'Amallar',
             key: 'actions',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button type="link" onClick={() => handleEdit(record)}>Edit</Button>
-                    <Button type="link" danger onClick={() => handleDelete(record.id)}>Delete</Button>
+                    <Button type="link" onClick={() => handleEdit(record)}>Tahrirlash</Button>
+                    <Button type="link" danger onClick={() => handleDelete(record._id)}>O‘chirish</Button>
                 </Space>
             ),
         },
@@ -95,15 +99,15 @@ const TeachersTable = () => {
                         <td>{record.gender}</td>
                     </tr>
                     <tr>
-                        <td>Millat:</td>
+                        <td>Millati:</td>
                         <td>{record.nationality}</td>
                     </tr>
                     <tr>
-                        <td>Oilaviy holat:</td>
+                        <td>Oilaviy holati:</td>
                         <td>{record.maritalStatus}</td>
                     </tr>
                     <tr>
-                        <td>Manzil:</td>
+                        <td>Manzili:</td>
                         <td>{record.address}</td>
                     </tr>
                     <tr>
@@ -111,7 +115,7 @@ const TeachersTable = () => {
                         <td>{record.email}</td>
                     </tr>
                     <tr>
-                        <td>Maosh (Foizda):</td>
+                        <td>Maoshi (Foizda):</td>
                         <td>{record.salary}</td>
                     </tr>
                     <tr>
@@ -128,11 +132,11 @@ const TeachersTable = () => {
     };
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Spin tip="Yuklanmoqda..." size="large" />;
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>;
+        return <Alert message="Xato" description={error.message} type="error" showIcon />;
     }
 
     return (
@@ -145,9 +149,11 @@ const TeachersTable = () => {
                     expandedRowRender,
                     rowExpandable: record => record.firstName !== 'Not Expandable',
                 }}
+                pagination={false}
+                size="small"
             />
             <Modal
-                title="Edit Teacher"
+                title="O‘qituvchini tahrirlash"
                 visible={isEditModalVisible}
                 onCancel={() => setIsEditModalVisible(false)}
                 onOk={() => {
@@ -157,102 +163,146 @@ const TeachersTable = () => {
                             handleEditSubmit(values);
                         })
                         .catch(info => {
-                            console.log('Validate Failed:', info);
+                            console.log('Tasdiqlashda xato:', info);
                         });
                 }}
+                width={800}
             >
                 <Form form={form} layout="vertical">
-                    <Form.Item
-                        name="firstName"
-                        label="Ism"
-                        rules={[{ required: true, message: 'Iltimos, ismingizni kiriting' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="middleName"
-                        label="Otasining ismi"
-                        rules={[{ required: true, message: 'Iltimos, otangizning ismini kiriting' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="lastName"
-                        label="Familiya"
-                        rules={[{ required: true, message: 'Iltimos, familiyangizni kiriting' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="dateOfBirth"
-                        label="Tug‘ilgan sana"
-                        rules={[{ required: true, message: 'Iltimos, tug‘ilgan sanangizni kiriting' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="gender"
-                        label="Jinsi"
-                        rules={[{ required: true, message: 'Iltimos, jinsingizni tanlang' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="nationality"
-                        label="Millat"
-                        rules={[{ required: true, message: 'Iltimos, millatingizni tanlang' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="maritalStatus"
-                        label="Oilaviy holat"
-                        rules={[{ required: true, message: 'Iltimos, oilaviy holatingizni tanlang' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="address"
-                        label="Manzil"
-                        rules={[{ required: true, message: 'Iltimos, yashash manzilingizni kiriting' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="phone"
-                        label="Telefon"
-                        rules={[{ required: true, message: 'Iltimos, telefon raqamingizni kiriting' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="subject"
-                        label="Fan"
-                        rules={[{ required: true, message: 'Iltimos, fanni tanlang!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="email"
-                        label="Elektron pochta"
-                        rules={[{ required: true, message: 'Iltimos, elektron pochtangizni kiriting' }, { type: 'email', message: 'Elektron pochta manzili noto‘g‘ri!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="username"
-                        label="Foydalanuvchi nomi"
-                        rules={[{ required: true, message: 'Iltimos, foydalanuvchi nomingizni kiriting' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="salary"
-                        label="Maosh (Foizda)"
-                        rules={[{ required: true, message: 'Iltimos, maoshni kiriting' }]}
-                    >
-                        <Input />
-                    </Form.Item>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="firstName"
+                                label="Ism"
+                                rules={[{ required: true, message: 'Iltimos, ismingizni kiriting' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="middleName"
+                                label="Otasining ismi"
+                                rules={[{ required: true, message: 'Iltimos, otangizning ismini kiriting' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="lastName"
+                                label="Familiya"
+                                rules={[{ required: true, message: 'Iltimos, familiyangizni kiriting' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="dateOfBirth"
+                                label="Tug‘ilgan sana"
+                                rules={[{ required: true, message: 'Iltimos, tug‘ilgan sanangizni kiriting' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="gender"
+                                label="Jinsi"
+                                rules={[{ required: true, message: 'Iltimos, jinsingizni tanlang' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="nationality"
+                                label="Millati"
+                                rules={[{ required: true, message: 'Iltimos, millatingizni tanlang' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="maritalStatus"
+                                label="Oilaviy holati"
+                                rules={[{ required: true, message: 'Iltimos, oilaviy holatingizni tanlang' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="address"
+                                label="Manzili"
+                                rules={[{ required: true, message: 'Iltimos, yashash manzilingizni kiriting' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="phone"
+                                label="Telefon"
+                                rules={[{ required: true, message: 'Iltimos, telefon raqamingizni kiriting' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="subject"
+                                label="Fani"
+                                rules={[{ required: true, message: 'Iltimos, fanni tanlang!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="email"
+                                label="Elektron pochta"
+                                rules={[
+                                    { required: true, message: 'Iltimos, elektron pochtangizni kiriting' },
+                                    { type: 'email', message: 'Elektron pochta manzili noto‘g‘ri!' },
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="username"
+                                label="Foydalanuvchi nomi"
+                                rules={[{ required: true, message: 'Iltimos, foydalanuvchi nomingizni kiriting' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="salary"
+                                label="Maoshi (Foizda)"
+                                rules={[{ required: true, message: 'Iltimos, maoshni kiriting' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
                 </Form>
             </Modal>
         </>
@@ -260,5 +310,3 @@ const TeachersTable = () => {
 };
 
 export default TeachersTable;
-
-

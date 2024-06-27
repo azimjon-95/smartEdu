@@ -13,18 +13,20 @@ import TeachersTable from './page/owner/createTeacher/ReadTeacher';
 
 function App() {
   return (
-    <Routes>
-      <Route element={<LayoutWrapper />}>
-        <Route path="/register/:id" element={<Register />} />
-        <Route path="/createCards" element={<CreateCards />} />
-        <Route path="/reports" element={<GroupInfoComponent />} />
-        <Route path="/activeGroups" element={<ActiveGroups />} />
-        <Route path="/createTeacher" element={<CreateTeacher />} />
-        <Route path="/getTeacher" element={<TeachersTable />} />
-        <Route path="/studentList/:id" element={<StudentList />} />
-        <Route path="/" element={<Outlet />} />
-      </Route>
-    </Routes>
+    <>
+      <Routes>
+        <Route element={<LayoutWrapper />}>
+          <Route path="/register/:id" element={<Register />} />
+          <Route path="/createCards" element={<CreateCards />} />
+          <Route path="/reports" element={<GroupInfoComponent />} />
+          <Route path="/activeGroups" element={<ActiveGroups />} />
+          <Route path="/createTeacher" element={<CreateTeacher />} />
+          <Route path="/getTeacher" element={<TeachersTable />} />
+          <Route path="/studentList/:id" element={<StudentList />} />
+          <Route path="/" element={<Outlet />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

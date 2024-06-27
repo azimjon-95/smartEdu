@@ -6,7 +6,8 @@ export const teacherApi = api.injectEndpoints({
             query: () => '/api/teacher',
         }),
         getTeacherById: builder.query({
-            query: (id) => `/teacher/${id}`,
+            query: (id) => `/api/teacher/${id}`,
+            providesTags: (result, error, id) => [{ type: 'Teacher', id }],
         }),
         createTeacher: builder.mutation({
             query: (newTeacher) => ({
@@ -14,6 +15,7 @@ export const teacherApi = api.injectEndpoints({
                 method: 'POST',
                 body: newTeacher,
             }),
+            invalidatesTags: [{ type: 'Teacher', id: 'LIST' }],
         }),
         updateTeacher: builder.mutation({
             query: ({ id, ...update }) => ({
@@ -21,12 +23,14 @@ export const teacherApi = api.injectEndpoints({
                 method: 'PUT',
                 body: update,
             }),
+            invalidatesTags: (result, error, { id }) => [{ type: 'Teacher', id }],
         }),
         deleteTeacher: builder.mutation({
             query: (id) => ({
                 url: `/api/teacher/${id}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: (result, error, id) => [{ type: 'Teacher', id }],
         }),
         signIn: builder.mutation({
             query: (credentials) => ({

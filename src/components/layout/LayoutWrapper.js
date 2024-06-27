@@ -4,7 +4,7 @@ import { Layout, Menu } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 import { UsergroupAddOutlined, TeamOutlined, FileTextOutlined } from '@ant-design/icons';
-const { Sider, Header, Content, Footer } = Layout;
+const { Sider, Header, Content } = Layout;
 
 const CustomLayout = () => {
     return (
@@ -35,7 +35,6 @@ const CustomLayout = () => {
                         <Outlet />
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design Demo</Footer>
             </Layout>
         </Layout>
     );

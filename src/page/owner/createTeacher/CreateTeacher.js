@@ -22,7 +22,7 @@ const subjects = [
         ]
     },
     { group: 'Adabiyot va Ona tili', subjects: ['Adabiyot', 'Ona tili'] },
-    { group: 'Web dasturlash', subjects: ['Webdasturlash'] },
+    { group: 'Web dasturlash', subjects: ['Web Dasturlash'] },
     { group: 'Mental', subjects: ['Mental arifmetika'] },
 ];
 const genderOptions = ['Erkak', 'Ayol'];
@@ -36,7 +36,7 @@ const RegisterPage = () => {
         try {
             const response = await createTeacher(values);
             console.log('Ro‘yxatdan o‘tish muvaffaqiyatli:', response);
-            window.location.href = "/";
+            window.location.href = "/getTeacher";
             form.resetFields(); // Reset form fields after successful submission
         } catch (error) {
             console.error('Ro‘yxatdan o‘tish muvaffaqiyatsiz:', error);

@@ -7,7 +7,7 @@
 
 .OpenReg {
     position: absolute;
-    right: -430px;
+    right: -420px;
     top: 0;
     width: 400px;
     height: 100vh;
@@ -18,10 +18,12 @@
 
 .OpenRegAll {
     position: absolute;
-    right: 0px;
-    top: 0;
+    right: -15px;
+    top: -15px;
     width: 400px;
     height: 100vh;
     background: #fff;
     transition: all .5s;
+    box-shadow: -10px 0 15px -5px rgba(94, 94, 94, 0.3);
+    /* Adjust values as needed */
 }
