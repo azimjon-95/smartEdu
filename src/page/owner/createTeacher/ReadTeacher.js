@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Table, Button, Space, Row, Col, Modal, Form, Input, message, Spin, Alert } from 'antd';
+import { Link } from 'react-router-dom';
 import { useGetAllTeachersQuery, useDeleteTeacherMutation, useUpdateTeacherMutation } from '../../../context/teacherApi'; // Ensure the correct path
 import './teachersTable.css';
+import { UserAddOutlined } from '@ant-design/icons';
 
 const TeachersTable = () => {
     const { data: teachers, error, isLoading, refetch } = useGetAllTeachersQuery();
@@ -10,11 +12,11 @@ const TeachersTable = () => {
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [editingTeacher, setEditingTeacher] = useState(null);
     const [form] = Form.useForm();
-    console.log(teachers);
+    const [searchTerm, setSearchTerm] = useState('');
+
     const handleDelete = async (id) => {
         try {
             let res = await deleteTeacher(id);
-            console.log(res);
             message.success('O‘qituvchi muvaffaqiyatli o‘chirildi');
             refetch();
         } catch (error) {
@@ -31,7 +33,6 @@ const TeachersTable = () => {
     const handleEditSubmit = async (values) => {
         try {
             await updateTeacher({ id: editingTeacher._id, ...values });
-
             message.success('O‘qituvchi muvaffaqiyatli yangilandi');
             setIsEditModalVisible(false);
             refetch();
@@ -85,6 +86,17 @@ const TeachersTable = () => {
             ),
         },
     ];
+
+    const onSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredData = teachers?.filter(s =>
+        s.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.middleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.phone.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const expandedRowRender = (record) => {
         return (
@@ -141,9 +153,20 @@ const TeachersTable = () => {
 
     return (
         <>
+            <div style={{ width: "100%", display: "flex", justifyContent: "space-between", gap: "20px", padding: "0 10px" }}>
+                <Input
+                    placeholder="Qidirish..."
+                    onChange={onSearch}
+                    style={{ width: "60%", margin: "auto" }}
+                />
+                <Link to="/createTeacher">
+                    <Button><UserAddOutlined /></Button>
+                </Link>
+            </div>
             <Table
                 columns={columns}
-                dataSource={teachers}
+                dataSource={filteredData}
+                bordered={true}
                 rowKey="id"
                 expandable={{
                     expandedRowRender,

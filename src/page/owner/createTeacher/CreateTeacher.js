@@ -1,33 +1,19 @@
 import React from 'react';
 import { Form, Input, Button, DatePicker, Select, Row, Col } from 'antd';
 import { useCreateTeacherMutation } from '../../../context/teacherApi'; // Ensure the correct path
+import { subjects } from '../../../utils/subjects';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const { Option, OptGroup } = Select;
 const nationalityOptions = [
     'O‘zbekiston', 'Rossiya', 'AQSH', 'Birlashgan Qirollik', 'Germaniya', 'Fransiya', 'Xitoy', 'Yaponiya', 'Boshqa'
 ];
-const subjects = [
-    { group: 'Matematika', subjects: ['Algebra', 'Geometriya', 'Matematik analiz'] },
-    { group: 'Fan', subjects: ['Fizika', 'Kimyo', 'Biologiya'] },
-    { group: 'Ijtimoiy fanlar', subjects: ['Tarix', 'Geografiya', 'Sotsiologiya'] },
-    {
-        group: 'Tillar',
-        subjects: [
-            'Ingliz tili (Kattalarga)',
-            'Ingliz tili (Bolalarga)',
-            'Rus tili',
-            'Fransuz tili',
-            'Nemis tili',
-            'Koreys tili'
-        ]
-    },
-    { group: 'Adabiyot va Ona tili', subjects: ['Adabiyot', 'Ona tili'] },
-    { group: 'Web dasturlash', subjects: ['Web Dasturlash'] },
-    { group: 'Mental', subjects: ['Mental arifmetika'] },
-];
+
 const genderOptions = ['Erkak', 'Ayol'];
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
     const [createTeacher] = useCreateTeacherMutation();
     const [form] = Form.useForm();
 
@@ -36,11 +22,15 @@ const RegisterPage = () => {
         try {
             const response = await createTeacher(values);
             console.log('Ro‘yxatdan o‘tish muvaffaqiyatli:', response);
-            window.location.href = "/getTeacher";
+            navigate("/getTeacher");
             form.resetFields(); // Reset form fields after successful submission
         } catch (error) {
             console.error('Ro‘yxatdan o‘tish muvaffaqiyatsiz:', error);
         }
+    };
+
+    const handleBack = () => {
+        navigate(-1); // Navigate one step back in the browser history
     };
 
     return (
@@ -257,11 +247,14 @@ const RegisterPage = () => {
                 </Col>
             </Row>
 
-            <Form.Item>
+            <div style={{ width: "100%", gap: "10px", display: "flex" }}>
                 <Button style={{ width: "100%" }} type="primary" htmlType="submit">
                     Ro‘yxatdan o‘tish
                 </Button>
-            </Form.Item>
+                <Button type="primary" danger onClick={handleBack} icon={<ArrowLeftOutlined />}>
+                    Orqaga
+                </Button>
+            </div>
         </Form>
     );
 };

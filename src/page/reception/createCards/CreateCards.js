@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
-import { Tabs, Button, Radio, Table, Form, Input, Select, message, Popconfirm } from 'antd';
+import { Tabs, Button, Radio, Table, Form, Input, Space, Select, message, Popconfirm } from 'antd';
 import './style.css';
 import { MdOutlineClear } from "react-icons/md";
-import { useCreateRegistrationMutation, useGetAllRegistrationsQuery, useDeleteRegistrationMutation } from '../../../context/groupsApi'; // Import useDeleteRegistrationMutation
+import { useCreateRegistrationMutation, useGetAllRegistrationsQuery, useDeleteRegistrationMutation } from '../../../context/groupsApi';
 import { subjects } from '../../../utils/subjects';
-
+import { useGetAllTeachersQuery } from '../../../context/teacherApi';
+import { capitalizeFirstLetter } from '../../../hook/CapitalizeFirstLitter';
 const { Option, OptGroup } = Select;
 const { Search } = Input;
 
 const CreateCards = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [open, setOpen] = useState(false);
-
-    // Fetching the registrations data
-    const { data: studentsData, error, isLoading, refetch } = useGetAllRegistrationsQuery(); // Add refetch to update data after delete
+    const { data: teachers = [] } = useGetAllTeachersQuery(); // Default to an empty array if undefined
+    const [choseDoctor, setChoseDoctor] = useState([]);
+    const { data: studentsData, error, isLoading, refetch } = useGetAllRegistrationsQuery();
     const [createRegistration] = useCreateRegistrationMutation();
-    const [deleteRegistration] = useDeleteRegistrationMutation(); // Initialize delete mutation
+    const [deleteRegistration] = useDeleteRegistrationMutation();
 
     const columns = [
         { title: 'Xona raqami', dataIndex: 'roomNumber', key: 'roomNumber' },
@@ -41,7 +42,7 @@ const CreateCards = () => {
                     case 'allDays':
                         return "Har kunlari";
                     default:
-                        return schedule; // Return the original value if it's not one of the expected values
+                        return schedule;
                 }
             },
         },
@@ -62,7 +63,7 @@ const CreateCards = () => {
                         statusText = 'Gruppa yopilgan';
                         break;
                     default:
-                        statusText = state; // Default to state value if not handled
+                        statusText = state;
                         break;
                 }
                 return <span>{statusText}</span>;
@@ -88,11 +89,16 @@ const CreateCards = () => {
     ];
 
     const handleFormSubmit = async (values) => {
+        const chosenTeachersNames = teachers
+            .filter(teacher => choseDoctor.includes(teacher._id))
+            .map(teacher => `${capitalizeFirstLetter(teacher.firstName)} ${capitalizeFirstLetter(teacher.lastName)}`);
+
         const newStudent = {
             roomNumber: values.roomNumber,
             lessonTime: values.lessonTime,
             subjects: values.subject,
-            teachers: values.teachers,
+            teachers: chosenTeachersNames,
+            teachersId: choseDoctor,
             state: "new",
             schedule: values.schedule,
         };
@@ -100,20 +106,19 @@ const CreateCards = () => {
         try {
             await createRegistration(newStudent).unwrap();
             message.success('Yangi gruppa ochildi');
-            setOpen(false); // Close the modal after successful registration
-            refetch(); // Refetch data after successful registration
+            setOpen(false);
+            refetch();
         } catch (error) {
             message.error('Failed to register student');
         }
     };
 
     const handleDelete = async (id) => {
-        console.log(id);
         try {
             await deleteRegistration(id).unwrap();
-            setOpen(false)
+            setOpen(false);
             message.success('Gruppa muvaffaqiyatli o\'chirildi');
-            refetch(); // Refetch data after successful deletion
+            refetch();
         } catch (error) {
             message.error('Gruppa o\'chirishda xatolik yuz berdi');
         }
@@ -121,8 +126,8 @@ const CreateCards = () => {
 
     const onSearch = (value) => {
         setSearchTerm(value);
-        console.log('Izlash natijasi:', value);
     };
+
     const operations = <Button onClick={() => setOpen(true)}>Gruppa ochish</Button>;
 
     const filteredData = studentsData?.filter(student =>
@@ -135,6 +140,11 @@ const CreateCards = () => {
 
     const dataNew = filteredData?.filter((i) => i.state === "new");
     const dataActive = filteredData?.filter((i) => i.state === "active");
+
+    const data = teachers.map(item => ({
+        value: item._id,
+        label: `${capitalizeFirstLetter(item.subject)} (${capitalizeFirstLetter(item.firstName)} ${capitalizeFirstLetter(item.lastName)})`,
+    }));
 
     return (
         <div className='TableGrups'>
@@ -165,7 +175,6 @@ const CreateCards = () => {
                             <Option value="10:00-12:00">10:00-12:00</Option>
                             <Option value="13:30-15:30">13:30-15:30</Option>
                             <Option value="15:30-17:30">15:30-17:30</Option>
-                            {/* Add more class time options as needed */}
                         </Select>
                     </Form.Item>
 
@@ -206,7 +215,6 @@ const CreateCards = () => {
                                     })}
                                 </OptGroup>
                             ))}
-
                         </Select>
                     </Form.Item>
 
@@ -215,13 +223,13 @@ const CreateCards = () => {
                         label="Ustozlarni tanlang"
                         rules={[{ required: true, message: 'Ustozlarni tanlang!' }]}
                     >
-                        <Select mode="multiple">
-                            <Option value="Hurshida Rasulova">Hurshida Rasulova</Option>
-                            <Option value="Azimjon Mamutaliev">Azimjon Mamutaliev</Option>
-                            <Option value="Bahromjon Abdulhayev">Bahromjon Abdulhayev</Option>
-                            {/* Add more teacher options as needed */}
-                        </Select>
-
+                        <Select
+                            mode="multiple"
+                            style={{ width: "100%" }}
+                            placeholder="Doktorlar"
+                            onChange={(value) => setChoseDoctor(value)}
+                            options={data}
+                        />
                     </Form.Item>
                     <Form.Item
                         name="schedule"
@@ -272,7 +280,7 @@ const CreateCards = () => {
 
                     </Tabs.TabPane>
                     <Tabs.TabPane
-                        tab={` Aktiv gruppalar`}
+                        tab={`Aktiv gruppalar`}
                         key={1}
                     >
                         <Table
@@ -294,7 +302,3 @@ const CreateCards = () => {
 };
 
 export default CreateCards;
-
-
-
-
