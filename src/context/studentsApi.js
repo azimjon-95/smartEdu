@@ -34,3 +34,11 @@ export const {
     useUpdateStudentMutation,
     useDeleteStudentMutation,
 } = studentApi;
+
+
+
+
+
+
+
+

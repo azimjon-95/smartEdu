@@ -4,7 +4,7 @@ export const CountingMoney = (date, price) => {
   }
 
   const parts = date.split(".");
-  if (parts.length !== 3) {
+  if (parts?.length !== 3) {
     return "Xatolik: Sana noto'g'ri formatda";
   }
 

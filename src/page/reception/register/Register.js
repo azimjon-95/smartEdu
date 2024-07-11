@@ -1,30 +1,61 @@
 import React from 'react';
-import { Form, Input, DatePicker, Button, Radio, Select, Row, Col } from 'antd';
+import { Form, Input, DatePicker, Button, Radio, Row, Col, notification } from 'antd';
 import moment from 'moment';
 import { IoArrowBackOutline } from "react-icons/io5";
-import { subjects } from '../../../utils/subjects';
-import { useNavigate } from 'react-router-dom';
-const { Option, OptGroup } = Select;
+import { useNavigate, useParams } from 'react-router-dom';
+import { useCreateStudentMutation } from '../../../context/studentsApi';
+import { useGetAllRegistrationsQuery, useUpdateRegistrationMutation } from '../../../context/groupsApi';
+
 const { Item: FormItem } = Form;
 
 const Register = () => {
+    const { id } = useParams();
+    const [updateRegistration] = useUpdateRegistrationMutation();
+    const { data: registrations } = useGetAllRegistrationsQuery();
+    const result = registrations?.filter((i) => i._id === id)[0];
     const [form] = Form.useForm();
     const navigate = useNavigate();
-
-    const onFinish = (values) => {
-        console.log('Form values:', values);
-    };
+    const [createStudent, { isLoading }] = useCreateStudentMutation();
 
     const handleClearClick = () => {
-        navigate(-1); // Navigate back one page in history
+        navigate(-1); // Tarixda bir sahifaga orqaga o'tish
     };
+
+    const onFinish = async (values) => {
+        try {
+            values.groupId = result?._id;
+            values.teacherId = result?.teacherId;
+            console.log(values);
+            await createStudent(values)
+            let groupData = {
+                ...result,
+                studentsLength: result.tudentsLength + 1
+            }
+
+            // Room capacityni yangilash
+            await updateRegistration({ id: result._id, groupData })
+
+            notification.success({
+                message: 'Muvaffaqiyatli',
+                description: 'O‘quvchi muvaffaqiyatli ro‘yxatdan o‘tkazildi!',
+            });
+            form.resetFields();
+            handleClearClick(); // O'quvchilar ro'yxatiga yoki boshqa sahifaga o'tish
+        } catch (error) {
+            notification.error({
+                message: 'Xatolik',
+                description: 'O‘quvchini ro‘yxatdan o‘tkazishda xatolik yuz berdi.',
+            });
+        }
+    };
+
+
 
     return (
         <div style={{ maxWidth: '100%' }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <Button onClick={handleClearClick} type="primary"><IoArrowBackOutline /></Button>
-
-                <h2 >O'quvchilarni Qabul Qilish</h2>
+                <h2>O'quvchilarni Qabul Qilish</h2>
             </div>
             <Form form={form} onFinish={onFinish} layout="vertical">
                 <Row gutter={16}>
@@ -119,60 +150,23 @@ const Register = () => {
                             </Radio.Group>
                         </FormItem>
                     </Col>
-                    {/* <Col span={8}>
-                        <FormItem
-                            name="subject"
-                            label="Fanni tanlang"
-                            rules={[{ required: true, message: 'Iltimos, fanni tanlang!' }]}
-                        >
-                            <Select
-                                showSearch
-                                placeholder="Fanni tanlang"
-                                style={{ width: '100%' }}
-                                optionFilterProp="children"
-                                filterOption={(input, option) =>
-                                    option.children?.toLowerCase().includes(input?.toLowerCase())
-                                }
-                            >
-                                {subjects.map((group) => (
-                                    <OptGroup key={group.group} label={group.group}>
-                                        {group.subjects.map((subject) => {
-                                            if (typeof subject === 'string') {
-                                                return (
-                                                    <Option key={subject} value={subject.toLowerCase().replace(/ /g, '-')}>
-                                                        {subject}
-                                                    </Option>
-                                                );
-                                            } else {
-                                                return (
-                                                    <OptGroup key={subject.group} label={subject.group}>
-                                                        {subject.subjects.map((sub) => (
-                                                            <Option key={sub} value={sub.toLowerCase().replace(/ /g, '-')}>
-                                                                {sub}
-                                                            </Option>
-                                                        ))}
-                                                    </OptGroup>
-                                                );
-                                            }
-                                        })}
-                                    </OptGroup>
-                                ))}
-
-                            </Select>
-                        </FormItem>
-                    </Col> */}
                 </Row>
 
                 <Row gutter={16}>
-                    <Button style={{ width: "100%" }} type="primary" htmlType="submit">
+                    <Button style={{ width: "100%" }} type="primary" htmlType="submit" loading={isLoading}>
                         Yuborish
                     </Button>
-                </Row >
+                </Row>
             </Form>
         </div>
     );
 };
 
 export default Register;
+
+
+
+
+
 
 

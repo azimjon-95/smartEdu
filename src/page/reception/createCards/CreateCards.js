@@ -25,7 +25,7 @@ const CreateCards = () => {
             title: 'Oquvchilar soni',
             dataIndex: 'roomCapacity',
             key: 'roomCapacity',
-            render: (roomCapacity) => roomCapacity.length
+            render: (roomCapacity) => roomCapacity?.length
         },
         { title: 'Dars vaqti', dataIndex: 'lessonTime', key: 'lessonTime' },
         { title: 'Ustoz', dataIndex: 'teachers', key: 'teachers' },
@@ -98,7 +98,7 @@ const CreateCards = () => {
             lessonTime: values.lessonTime,
             subjects: values.subject,
             teachers: chosenTeachersNames,
-            teachersId: choseDoctor,
+            teacherId: JSON.stringify(choseDoctor),
             state: "new",
             schedule: values.schedule,
         };

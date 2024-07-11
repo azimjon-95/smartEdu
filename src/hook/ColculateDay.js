@@ -5,7 +5,7 @@ export const CountingDay = (value) => {
     }
 
     let dateParts = value?.split(".");
-    if (dateParts.length !== 3) {
+    if (dateParts ??.length !== 3) {
         return "Invalid date format";
     }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Space, Input } from 'antd';
+import { useGetStudentQuery } from '../../../context/studentsApi';
 import './style.css'
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
@@ -8,6 +9,8 @@ import { IoArrowBackOutline } from "react-icons/io5";
 const { Search } = Input;
 
 const StudentList = () => {
+    const { data: data } = useGetStudentQuery();
+    console.log(data);
     const navigate = useNavigate();
     const { id } = useParams()
     // O'quvchilar ro'yhati
@@ -19,7 +22,7 @@ const StudentList = () => {
 
     // O'quvchini o'chirish
     const handleDelete = (record) => {
-        const updatedStudents = students.filter(student => student.id !== record.id);
+        const updatedStudents = students?.filter(student => student.id !== record.id);
         setStudents(updatedStudents);
     };
 

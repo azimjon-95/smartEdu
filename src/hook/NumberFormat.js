@@ -2,7 +2,7 @@ export function NumberFormat(number) {
   const cleanNumber = String(number).replace(/\D/g, "");
   const num = 3;
   const filter = [];
-  let startIndex = cleanNumber.length;
+  let startIndex = cleanNumber?.length;
   while (startIndex > 0) {
     const endIndex = startIndex;
     startIndex = Math.max(0, startIndex - num);
@@ -14,7 +14,7 @@ export function NumberFormat(number) {
 export function PhoneNumberFormat(input) {
   if (!input) return input;
   const numberInput = input.replace(/[^\d]/g, "");
-  const numberInputLength = numberInput.length;
+  const numberInputLength = numberInput?.length;
   if (numberInputLength < 9) {
     return numberInput;
   } else {
