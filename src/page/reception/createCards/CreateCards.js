@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tabs, Button, Radio, Table, Form, Input, Space, Select, message, Popconfirm } from 'antd';
+import { Tabs, Button, Radio, Table, Form, Input, Space, Select, message, Popconfirm, Row } from 'antd';
 import './style.css';
 import { MdOutlineClear } from "react-icons/md";
 import { useCreateRegistrationMutation, useGetAllRegistrationsQuery, useDeleteRegistrationMutation } from '../../../context/groupsApi';
@@ -101,6 +101,7 @@ const CreateCards = () => {
             teacherId: JSON.stringify(choseDoctor),
             state: "new",
             schedule: values.schedule,
+            mothlyPay: +values.mothlyPay,
         };
 
         try {
@@ -217,20 +218,32 @@ const CreateCards = () => {
                             ))}
                         </Select>
                     </Form.Item>
+                    <Row style={{ display: "flex", gap: "5px" }}>
+                        <Form.Item
+                            style={{ width: "49%" }}
+                            name="teachers"
+                            label="Ustozlarni tanlang"
+                            rules={[{ required: true, message: 'Ustozlarni tanlang!' }]}
+                        >
+                            <Select
+                                mode="multiple"
+                                style={{ width: "100%" }}
+                                placeholder="Doktorlar"
+                                onChange={(value) => setChoseDoctor(value)}
+                                options={data}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            style={{ width: "49%" }}
 
-                    <Form.Item
-                        name="teachers"
-                        label="Ustozlarni tanlang"
-                        rules={[{ required: true, message: 'Ustozlarni tanlang!' }]}
-                    >
-                        <Select
-                            mode="multiple"
-                            style={{ width: "100%" }}
-                            placeholder="Doktorlar"
-                            onChange={(value) => setChoseDoctor(value)}
-                            options={data}
-                        />
-                    </Form.Item>
+                            name="mothlyPay"
+                            label="Oylik tulov"
+                            rules={[{ required: true, message: 'Kurs narxini kiriting!' }]}
+                        >
+                            <Input placeholder="Kurs narxi" />
+                        </Form.Item>
+                    </Row>
+
                     <Form.Item
                         name="schedule"
                         label="Jadvalni tanlang"

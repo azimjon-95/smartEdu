@@ -10,6 +10,7 @@ const { Item: FormItem } = Form;
 
 const Register = () => {
     const { id } = useParams();
+
     const [updateRegistration] = useUpdateRegistrationMutation();
     const { data: registrations } = useGetAllRegistrationsQuery();
     const result = registrations?.filter((i) => i._id === id)[0];
@@ -20,20 +21,41 @@ const Register = () => {
     const handleClearClick = () => {
         navigate(-1); // Tarixda bir sahifaga orqaga o'tish
     };
-
+    console.log(result);
     const onFinish = async (values) => {
         try {
             values.groupId = result?._id;
             values.teacherId = result?.teacherId;
-            console.log(values);
+            values.subject = result?.subject;
+            values.payForLesson = result?.mothlyPay;
+            values.lessonTime = result?.lessonTime;
+            values.lessonTime = result?.lessonTime;
+            values.lessonDate = result?.schedule;
+            values.teacherFullName = result?.teachers;
             await createStudent(values)
+
+            // studentsLength ni yangilash
+            // let groupData = {
+            //     ...result,
+            //     studentsLength: (result?.studentsLength || 0) + 1 // 0 dan boshlanishini ta'minlash
+            // };
+            // console.log(groupData);
+
+            // let res2 = await updateRegistration({ id: result?._id, body: groupData });
+
             let groupData = {
                 ...result,
-                studentsLength: result.tudentsLength + 1
-            }
+                studentsLength: (result?.studentsLength || 0) + 1 // 0 dan boshlanishini ta'minlash
+            };
+            console.log(groupData);
 
-            // Room capacityni yangilash
-            await updateRegistration({ id: result._id, groupData })
+            // updateRegistration ni chaqirish
+            let res2 = await updateRegistration({ id: result?._id, body: groupData });
+
+            // Yangi result ni qayta olish
+            if (res2.success) { // Assuming res2 has a success property
+                result = res2.updatedGroupData; // Updating the result with the updated group data
+            }
 
             notification.success({
                 message: 'Muvaffaqiyatli',

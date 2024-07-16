@@ -20,8 +20,8 @@ import { useGetAllRegistrationsQuery } from '../../../context/groupsApi';
 
 const NewGrupps = () => {
     const [selectedDate, setSelectedDate] = useState("");
-    const { data: data } = useGetAllRegistrationsQuery();
-    console.log(data);
+    const { data: gruups } = useGetAllRegistrationsQuery();
+    const data = gruups?.filter((i) => i.state === "new") // active
 
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FF8333', '#33FFF1', '#8333FF', '#33FF83', '#FF3333', '#33FFA5'];
     const images = [image1, image2, image3, image4, image5];

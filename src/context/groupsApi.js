@@ -16,10 +16,10 @@ export const groupsApi = api.injectEndpoints({
       query: (id) => `/api/groups/${id}`,
     }),
     updateRegistration: builder.mutation({
-      query: ({ id, ...update }) => ({
+      query: ({ id, body }) => ({
         url: `/api/groups/${id}`,
         method: 'PUT',
-        body: update,
+        body,
       }),
     }),
     deleteRegistration: builder.mutation({

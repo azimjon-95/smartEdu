@@ -1,46 +1,67 @@
 import React, { useState } from 'react';
-import { Table, Button, Space, Input } from 'antd';
-import { useGetStudentQuery } from '../../../context/studentsApi';
-import './style.css'
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { Table, Button, Space, Input, message, notification } from 'antd';
+import { useGetStudentQuery, useDeleteStudentMutation } from '../../../context/studentsApi';
+import { useGetAllRegistrationsQuery, useUpdateRegistrationMutation } from '../../../context/groupsApi';
 
+import './style.css';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { IoArrowBackOutline } from "react-icons/io5";
+import moment from 'moment';
 
 const { Search } = Input;
 
 const StudentList = () => {
-    const { data: data } = useGetStudentQuery();
-    console.log(data);
+    const { data } = useGetStudentQuery();
+    const [deleteStudent] = useDeleteStudentMutation();
+    const [updateRegistration] = useUpdateRegistrationMutation();
+    const { data: registrations } = useGetAllRegistrationsQuery();
+
     const navigate = useNavigate();
-    const { id } = useParams()
-    // O'quvchilar ro'yhati
-    const [students, setStudents] = useState([
-        { id: 1, name: 'John Doe', age: 22 },
-        { id: 2, name: 'Jane Smith', age: 20 },
-        { id: 3, name: 'Michael Johnson', age: 21 },
-    ]);
+    const { id } = useParams();
+    const result = registrations?.filter((i) => i._id === id)[0];
+
+    // data ni studentlarga o'tkazamiz
+    const student = data?.filter((i) => i.groupId === id)
 
     // O'quvchini o'chirish
-    const handleDelete = (record) => {
-        const updatedStudents = students?.filter(student => student.id !== record.id);
-        setStudents(updatedStudents);
+    const handleDelete = async (record) => {
+        console.log(record._id);
+        try {
+            await deleteStudent(record?._id);
+            message.success(`Talaba muvaffaqiyatli o'chirildi`);
+        } catch (error) {
+            message.warning('Talabani o\'chirishda xatolik yuz berdi');
+            console.error(error);
+        }
     };
 
     // O'quvchini yangilash
     const handleUpdate = (record) => {
-        // Bu funksiya o'quvchini yangilash uchun ishlatiladi
-        console.log('Update button clicked for:', record);
+        console.log('Yangilash tugmasi bosildi:', record);
     };
 
     const handleClearClick = () => {
-        navigate(-1); // Navigate back one page in history
+        navigate(-1);
     };
 
     // Table uchun ustunlar
     const columns = [
         { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'Ism', dataIndex: 'name', key: 'name' },
-        { title: 'Yosh', dataIndex: 'age', key: 'age' },
+        {
+            title: 'Ism Familya',
+            key: 'name',
+            render: (text, record) => `${record.firstName} ${record.lastName}`
+        },
+        {
+            title: 'Yoshi',
+            dataIndex: 'dateOfBirth',
+            key: 'dateOfBirth',
+            render: (date) => {
+                const age = moment().diff(date, 'years');
+                return `${age} yosh`;
+            }
+        },
+        { title: 'Tel', dataIndex: 'studentPhoneNumber', key: 'studentPhoneNumber' },
         {
             title: 'Harakatlar',
             key: 'action',
@@ -53,14 +74,38 @@ const StudentList = () => {
         },
     ];
 
-
     const [searchTerm, setSearchTerm] = useState('');
 
     const onSearch = (value) => {
         setSearchTerm(value);
-        // Bu yerda siz izlash funksiyasini amalga oshirishingiz mumkin
         console.log('Izlash natijasi:', value);
     };
+
+
+    const onFinish = async () => {
+        try {
+            let groupData = {
+                ...result,
+                state: "active"
+            };
+
+            // updateRegistration ni chaqirish
+            let res = await updateRegistration({ id: result?._id, body: groupData });
+            console.log(res);
+            notification.success({
+                message: 'Muvaffaqiyatli',
+                description: 'Guruh muvaffaqiyatli ravishda aktivlashdi.',
+            });
+
+            handleClearClick(); // O'quvchilar ro'yxatiga yoki boshqa sahifaga o'tish
+        } catch (error) {
+            notification.error({
+                message: 'Xatolik',
+                description: 'Guruhni aktivlashtrishda xatolik yuz berdi.',
+            });
+        }
+    };
+
     return (
         <div className="reachStudents_box">
             <div className="reachStudents">
@@ -70,20 +115,18 @@ const StudentList = () => {
                     placeholder="Qidirish..."
                     onSearch={onSearch}
                     style={{ width: "60%" }}
-                    enterButton={false} // Bu yerda `enterButton`ni false qilib, buttonni yashirish mumkin
+                    enterButton={false}
                 />
-                <Button type="primary">darsni boshlash</Button>
+                <Button onClick={onFinish} type="primary">Darsni boshlash</Button>
 
-                {/* Agar register tugmasini olib tashlamoqchi bo'lsangiz, quyidagi qatorni olib tashlang */}
                 <Link to={`/register/${id}`}>
                     <Button type="primary">Qabul</Button>
                 </Link>
-
             </div>
 
-            <Table pagination={false} size="small" columns={columns} dataSource={students} />
+            <Table pagination={false} size="small" columns={columns} dataSource={student} />
         </div>
-    )
+    );
 };
 
 export default StudentList;
