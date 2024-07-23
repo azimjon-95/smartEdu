@@ -1,29 +1,19 @@
 // App.js
 import React from 'react';
-import { Route, Routes, Outlet } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import LayoutWrapper from './components/layout/LayoutWrapper';
-import Register from './page/reception/register/Register';
-// import Students from './page/students/Students';
-import NewGrupps from './page/reception/newGrupps/NewGrupps';
-import CreateCards from './page/reception/createCards/CreateCards';
-import StudentList from './page/reception/studentList/StudentList';
-import ActiveGroups from './page/reception/activeGroups/ActiveGroups';
-import CreateTeacher from './page/owner/createTeacher/CreateTeacher';
-import TeachersTable from './page/owner/createTeacher/ReadTeacher';
+import { routes } from './routes/Routes';
+import Login from './components/login/Login';
 
 function App() {
   return (
     <>
+      <Login />
       <Routes>
         <Route element={<LayoutWrapper />}>
-          <Route path="/register/:id" element={<Register />} />
-          <Route path="/createCards" element={<CreateCards />} />
-          <Route path="/reports" element={<NewGrupps />} />
-          <Route path="/activeGroups" element={<ActiveGroups />} />
-          <Route path="/createTeacher" element={<CreateTeacher />} />
-          <Route path="/getTeacher" element={<TeachersTable />} />
-          <Route path="/studentList/:id" element={<StudentList />} />
-          <Route path="/" element={<Outlet />} />
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} element={route.element} />
+          ))}
         </Route>
       </Routes>
     </>

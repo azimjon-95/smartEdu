@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button } from 'antd';
 import { Link } from 'react-router-dom';
-import { BsFillCaretRightFill } from "react-icons/bs";
-import { MdLibraryAdd } from "react-icons/md";
-import { HiEye } from "react-icons/hi2";
 import image1 from '../../../assets/eng.jpg';
 import image2 from '../../../assets/eng1.jpg';
 import image3 from '../../../assets/eng2.png';
@@ -12,7 +8,6 @@ import image5 from '../../../assets/eng4.jpg';
 import { FaUsers } from "react-icons/fa";
 import { FaWeebly } from "react-icons/fa";
 import { IoTimeOutline } from "react-icons/io5";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdPersonAdd } from "react-icons/io";
 import { BsDoorOpen } from "react-icons/bs";
 import './style.css';
@@ -43,7 +38,7 @@ const NewGrupps = () => {
     const getScheduleText = (schedule) => {
         switch (schedule) {
             case 'oddDays':
-                return 'D.CH,J';
+                return 'D,CH,J';
             case 'evenDays':
                 return 'S,P,SH';
             case 'allDays':
@@ -96,10 +91,3 @@ const NewGrupps = () => {
 };
 
 export default NewGrupps;
-
-
-
-
-
-
-

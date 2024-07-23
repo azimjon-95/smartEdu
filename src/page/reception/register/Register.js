@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, DatePicker, Button, Radio, Row, Col, notification } from 'antd';
 import moment from 'moment';
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCreateStudentMutation } from '../../../context/studentsApi';
 import { useGetAllRegistrationsQuery, useUpdateRegistrationMutation } from '../../../context/groupsApi';
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 
 const { Item: FormItem } = Form;
 
@@ -17,37 +19,32 @@ const Register = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [createStudent, { isLoading }] = useCreateStudentMutation();
+    const [phoneStudent, setPhoneStudent] = useState("");
+    const [phoneParents, setPhoneParents] = useState("");
 
     const handleClearClick = () => {
         navigate(-1); // Tarixda bir sahifaga orqaga o'tish
     };
+
     console.log(result);
     const onFinish = async (values) => {
         try {
             values.groupId = result?._id;
             values.teacherId = result?.teacherId;
-            values.subject = result?.subject;
+            values.subject = result.subjects;
             values.payForLesson = result?.mothlyPay;
-            values.lessonTime = result?.lessonTime;
             values.lessonTime = result?.lessonTime;
             values.lessonDate = result?.schedule;
             values.teacherFullName = result?.teachers;
-            await createStudent(values)
+            values.studentPhoneNumber = phoneStudent;
+            values.parentPhoneNumber = phoneParents;
 
-            // studentsLength ni yangilash
-            // let groupData = {
-            //     ...result,
-            //     studentsLength: (result?.studentsLength || 0) + 1 // 0 dan boshlanishini ta'minlash
-            // };
-            // console.log(groupData);
-
-            // let res2 = await updateRegistration({ id: result?._id, body: groupData });
-
+            let res = await createStudent(values);
+            console.log(res);
             let groupData = {
                 ...result,
                 studentsLength: (result?.studentsLength || 0) + 1 // 0 dan boshlanishini ta'minlash
             };
-            console.log(groupData);
 
             // updateRegistration ni chaqirish
             let res2 = await updateRegistration({ id: result?._id, body: groupData });
@@ -134,31 +131,33 @@ const Register = () => {
                         </FormItem>
                     </Col>
                     <Col span={8}>
-                        <FormItem
-                            name="studentPhoneNumber"
-                            label="O'quvchining telefon raqami"
-                            rules={[
-                                { required: true, message: 'Iltimos, o\'quvchining telefon raqamini kiriting!' },
-                                { pattern: /^[0-9]+$/, message: 'Iltimos, to‘g‘ri telefon raqam kiriting!' },
-                            ]}
-                        >
-                            <Input placeholder="Telefon raqamini kiriting" />
-                        </FormItem>
+
+                        <Form.Item label="O'quvchining telefon raqami" name="studentPhoneNumber">
+                            <PhoneInput
+                                defaultCountry="uz"
+                                value={phoneStudent}
+                                onChange={(e) => e.length === 13 && setPhoneStudent(e)}
+                                inputStyle={{ width: "100%" }}
+                                className="PhoneInput"
+                                placeholder="+998 xx xxx-xx-xx"
+                            />
+                        </Form.Item>
                     </Col>
                 </Row>
 
                 <Row gutter={16}>
                     <Col span={8}>
-                        <FormItem
-                            name="parentPhoneNumber"
-                            label="Ota-onasining telefon raqami"
-                            rules={[
-                                { required: true, message: 'Iltimos, ota-onangizning telefon raqamini kiriting!' },
-                                { pattern: /^[0-9]+$/, message: 'Iltimos, to‘g‘ri telefon raqam kiriting!' },
-                            ]}
-                        >
-                            <Input placeholder="Telefon raqamini kiriting" />
-                        </FormItem>
+
+                        <Form.Item label="Ota-onasining telefon raqami" name="parentPhoneNumber">
+                            <PhoneInput
+                                defaultCountry="uz"
+                                value={phoneParents}
+                                onChange={(e) => e.length === 13 && setPhoneParents(e)}
+                                inputStyle={{ width: "100%" }}
+                                className="PhoneInput"
+                                placeholder="+998 xx xxx-xx-xx"
+                            />
+                        </Form.Item>
                     </Col>
                     <Col span={8}>
                         <FormItem

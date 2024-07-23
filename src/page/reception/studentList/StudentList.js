@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Space, Input, message, notification } from 'antd';
-import { useGetStudentQuery, useDeleteStudentMutation } from '../../../context/studentsApi';
+import { useGetStudentQuery, useDeleteStudentMutation, useUpdateStudentsStateMutation } from '../../../context/studentsApi';
 import { useGetAllRegistrationsQuery, useUpdateRegistrationMutation } from '../../../context/groupsApi';
-
 import './style.css';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { IoArrowBackOutline } from "react-icons/io5";
@@ -15,6 +14,7 @@ const StudentList = () => {
     const [deleteStudent] = useDeleteStudentMutation();
     const [updateRegistration] = useUpdateRegistrationMutation();
     const { data: registrations } = useGetAllRegistrationsQuery();
+    const [updateStudentsState] = useUpdateStudentsStateMutation();
 
     const navigate = useNavigate();
     const { id } = useParams();
@@ -84,27 +84,40 @@ const StudentList = () => {
 
     const onFinish = async () => {
         try {
-            let groupData = {
+            const groupData = {
                 ...result,
-                state: "active"
+                state: 'active',
             };
 
-            // updateRegistration ni chaqirish
-            let res = await updateRegistration({ id: result?._id, body: groupData });
-            console.log(res);
+            // Guruhni yangilash
+            const registrationResponse = await updateRegistration({ id: result?._id, body: groupData });
+            console.log(registrationResponse);
+
             notification.success({
                 message: 'Muvaffaqiyatli',
                 description: 'Guruh muvaffaqiyatli ravishda aktivlashdi.',
             });
 
-            handleClearClick(); // O'quvchilar ro'yxatiga yoki boshqa sahifaga o'tish
+
+            await updateStudentsState(result.groupId)
+                .then((res) => { console.log(res) })
+                .catch((err) => { console.log(err) })
+
+
+
+            // Qo'shimcha amallar
+            handleClearClick();
         } catch (error) {
+            console.error(error);
             notification.error({
                 message: 'Xatolik',
-                description: 'Guruhni aktivlashtrishda xatolik yuz berdi.',
+                description: 'Guruhni aktivlashtirishda xatolik yuz berdi.',
             });
         }
     };
+
+
+
 
     return (
         <div className="reachStudents_box">

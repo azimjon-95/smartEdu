@@ -23,9 +23,9 @@ const CreateCards = () => {
         { title: 'Fan nomi', dataIndex: 'subjects', key: 'subjects' },
         {
             title: 'Oquvchilar soni',
-            dataIndex: 'roomCapacity',
-            key: 'roomCapacity',
-            render: (roomCapacity) => roomCapacity?.length
+            dataIndex: 'studentsLength',
+            key: 'studentsLength',
+            // render: (roomCapacity) => roomCapacity
         },
         { title: 'Dars vaqti', dataIndex: 'lessonTime', key: 'lessonTime' },
         { title: 'Ustoz', dataIndex: 'teachers', key: 'teachers' },
@@ -103,6 +103,7 @@ const CreateCards = () => {
             schedule: values.schedule,
             mothlyPay: +values.mothlyPay,
         };
+        console.log(newStudent);
 
         try {
             await createRegistration(newStudent).unwrap();

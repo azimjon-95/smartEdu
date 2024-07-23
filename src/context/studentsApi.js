@@ -4,6 +4,7 @@ export const studentApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getStudent: builder.query({
             query: () => '/api/student/',
+            providesTags: ['Student']
         }),
         createStudent: builder.mutation({
             query: (newStudent) => ({
@@ -11,13 +12,24 @@ export const studentApi = api.injectEndpoints({
                 method: 'POST',
                 body: newStudent,
             }),
+            invalidatesTags: ['Student']
         }),
         updateStudent: builder.mutation({
-            query: ({ id, ...update }) => ({
+            query: ({ id, body }) => ({
                 url: `/api/student/${id}`,
                 method: 'PUT',
-                body: update,
+                body,
             }),
+            invalidTags: ["Student"]
+
+        }),
+        updateStudentsState: builder.mutation({
+            query: (groupId) => ({
+                url: `/api/students/update-state/${groupId}`,
+                method: 'PUT',
+            }),
+            invalidTags: ["Student"]
+
         }),
         deleteStudent: builder.mutation({
             query: (id) => ({
@@ -33,6 +45,7 @@ export const {
     useCreateStudentMutation,
     useUpdateStudentMutation,
     useDeleteStudentMutation,
+    useUpdateStudentsStateMutation
 } = studentApi;
 
 

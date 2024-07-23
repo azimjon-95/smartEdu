@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu } from 'antd';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { TeamOutlined, FileTextOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Space, Layout, Menu, Button } from 'antd';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { GiTakeMyMoney } from "react-icons/gi";
+import {
+    DollarOutlined, MenuFoldOutlined,
+    MenuUnfoldOutlined, TeamOutlined, FileTextOutlined, UserAddOutlined, UserOutlined
+} from '@ant-design/icons';
+import { useGetBalansQuery } from '../../context/balansApi.js';
 import logo from '../../assets/logo.png';
+import collapsedLogo from '../../assets/collapsedLogo.jpg'; // Yangi rasm
+import './style.css';
+import Snowfall from '../snowFall/Snowfall';
+import { NumberFormat, PhoneNumberFormat } from '../../hook/NumberFormat.js';
+// import { UserOutlined } from '@ant-design/icons';
 
-const { Sider, Header, Content } = Layout;
+
+const { Sider, Content } = Layout;
 
 const CustomLayout = () => {
     const location = useLocation();
     const [selectedKey, setSelectedKey] = useState('1');
+    const [collapsed, setCollapsed] = useState(false);
+    const { data: balans, isLoading, error } = useGetBalansQuery();
+
 
     useEffect(() => {
         switch (location.pathname) {
@@ -24,6 +38,9 @@ const CustomLayout = () => {
             case '/getTeacher':
                 setSelectedKey('4');
                 break;
+            case '/payController':
+                setSelectedKey('5');
+                break;
             default:
                 setSelectedKey('1');
                 break;
@@ -31,9 +48,13 @@ const CustomLayout = () => {
     }, [location.pathname]);
 
     return (
-        <Layout style={{ minHeight: '100vh', overflow: "hidden" }}>
-            <Sider collapsible>
-                <img width={200} src={logo} alt="" />
+        <Layout style={{ minHeight: '100vh', overflow: "hidden", background: "#048e38" }}>
+            <Sider trigger={null} collapsible collapsed={collapsed}>
+                <div className="demo-logo-vertical" />
+                <div style={{ overflow: "hidden" }} className={collapsed ? "mainLogoNone" : "mainLogo"}>
+                    <Snowfall />
+                    <img width={collapsed ? 45 : 190} src={collapsed ? collapsedLogo : logo} alt="Logo" />
+                </div>
                 <Menu theme="dark" selectedKeys={[selectedKey]} mode="inline">
                     <Menu.Item key="1" icon={<FileTextOutlined />}>
                         <Link to="/reports">Qabul Bo'limi</Link>
@@ -47,19 +68,57 @@ const CustomLayout = () => {
                     <Menu.Item key="4" icon={<UserOutlined />}>
                         <Link to="/getTeacher">Ustozlar</Link>
                     </Menu.Item>
+                    <Menu.Item key="5" icon={<DollarOutlined />}>
+                        <Link to="/payController">To'lovlar</Link>
+                    </Menu.Item>
                 </Menu>
             </Sider>
             <Layout className="site-layout">
-                <Header className="site-layout-background" style={{ padding: 0 }} />
+                <div className="MainNavbar">
+                    <Button
+                        type="text"
+                        icon={collapsed ? <MenuUnfoldOutlined style={{ fontSize: '22px' }} /> : <MenuFoldOutlined style={{ fontSize: '22px' }} />}
+                        onClick={() => setCollapsed(!collapsed)}
+                        style={{
+                            fontSize: '22px',
+                            width: 64,
+                            height: 64,
+                            zIndex: 10
+                        }}
+                    />
+                    <Snowfall />
+
+
+                    <Space style={{ zIndex: 3 }} wrap size={16}>
+                        <NavLink style={{ textDecoration: "none", color: "#333", zIndex: 3 }} to="/balans">
+                            <div className="allBalans">
+                                <div style={{ display: "flex", alignItems: "center", gap: "3px", justifyContent: "center", fontSize: '12px', lineHeight: "10px", textAlign: "center" }}><GiTakeMyMoney /> Balans</div>
+                                {isLoading && <div>Yuklanmoqda...</div>}
+                                {error && <div>Xatolik yuz berdi: {error.message}</div>}
+                                {!isLoading && !error && (
+                                    <>
+                                        {balans?.map((item) => (
+                                            <div key={item._id}>
+                                                {item.balans === 0 ? "" : `${NumberFormat(item.balans)} so'm`}
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
+                            </div>
+                        </NavLink>
+                        <NavLink style={{ textDecoration: "none", color: "#333", zIndex: 3 }} to="/single_page">
+                            <Avatar size="large" icon={<UserOutlined />} />
+                        </NavLink>
+                    </Space>
+                </div>
                 <Content>
                     <div style={{ padding: 5 }}>
                         <Outlet />
                     </div>
                 </Content>
             </Layout>
-        </Layout>
+        </Layout >
     );
 };
 
 export default CustomLayout;
-
