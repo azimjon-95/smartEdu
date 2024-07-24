@@ -69,13 +69,14 @@ const GroupInfoComponent = () => {
     const subjectsNames = Array.from(
         new Set(data?.flatMap(s => s.subjects))
     );
+
     // Fanlar tanlanganda ma'lumotlarni olish
     const handleSubjectsChange = value => {
         setSelectedSubjects(value);
     };
 
     const filteredData = data?.filter((g) => {
-        const matchesTeacher = selectedTeacher ? g?.subjects?.includes(selectedTeacher) : true;
+        const matchesTeacher = selectedTeacher ? g?.teachers?.includes(selectedTeacher) : true;
         const searchTermLower = searchTerm?.toLowerCase();
         const matchesSearchTerm = g?.teachers?.some(teacher =>
             teacher?.toLowerCase()?.includes(searchTermLower)
@@ -83,7 +84,6 @@ const GroupInfoComponent = () => {
             g?.subjects?.toLowerCase()?.includes(searchTermLower);
         return matchesTeacher && matchesSearchTerm;
     });
-    // Tanlangan o'qituvchiga qarab o'quvchilarni filtrlash
 
     return (
         <div className="site-card-border-less">
@@ -101,6 +101,10 @@ const GroupInfoComponent = () => {
                     placeholder="O'qituvchini tanlang"
                     onChange={handleTeacherChange}
                     value={selectedTeacher}
+                    showSearch
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().includes(input.toLowerCase())
+                    }
                 >
                     <Option value={null}>Ustozlar</Option>
                     {teacherNames?.map(name => (
@@ -109,19 +113,7 @@ const GroupInfoComponent = () => {
                         </Option>
                     ))}
                 </Select>
-                <Select
-                    style={{ width: 200 }}
-                    placeholder="O'qituvchini tanlang"
-                    onChange={handleSubjectsChange}
-                    value={selectedSubjects}
-                >
-                    <Option value={null}>Fanlar</Option>
-                    {subjectsNames?.map(name => (
-                        <Option key={name} value={name}>
-                            {name}
-                        </Option>
-                    ))}
-                </Select>
+
             </div>
             {data?.length === 0 ? (
                 <div style={{ width: "100%", height: "70vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -166,9 +158,8 @@ const GroupInfoComponent = () => {
     );
 };
 
-
-
 export default GroupInfoComponent;
+
 
 
 

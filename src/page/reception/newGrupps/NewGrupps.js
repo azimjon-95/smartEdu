@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Empty } from 'antd';
 import image1 from '../../../assets/eng.jpg';
 import image2 from '../../../assets/eng1.jpg';
 import image3 from '../../../assets/eng2.png';
@@ -9,13 +8,20 @@ import image5 from '../../../assets/eng4.jpg';
 import { FaUsers } from "react-icons/fa";
 import { FaWeebly } from "react-icons/fa";
 import { IoTimeOutline } from "react-icons/io5";
-import { IoMdPersonAdd } from "react-icons/io";
+import { NumberFormat, PhoneNumberFormat } from '../../../hook/NumberFormat';
 import { BsDoorOpen } from "react-icons/bs";
+import { IoMdPersonAdd } from "react-icons/io";
 import './style.css';
 import { useGetAllRegistrationsQuery } from '../../../context/groupsApi';
+import { Input, Select, Empty } from 'antd';
+import { SearchOutlined, DollarOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
+
+const { Option } = Select;
 
 const NewGrupps = () => {
-    const [selectedDate, setSelectedDate] = useState("");
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedTeacher, setSelectedTeacher] = useState(null);
+    const [selectedSubjects, setSelectedSubjects] = useState(null);
     const { data: gruups } = useGetAllRegistrationsQuery();
     const data = gruups?.filter((i) => i.state === "new"); // active
 
@@ -32,9 +38,7 @@ const NewGrupps = () => {
         return images[randomIndex];
     };
 
-    const handleDateChange = (e) => {
-        setSelectedDate(e.target.value);
-    };
+
 
     const getScheduleText = (schedule) => {
         switch (schedule) {
@@ -49,14 +53,70 @@ const NewGrupps = () => {
         }
     };
 
+    // O'qituvchi tanlanganda ma'lumotlarni olish
+    const handleTeacherChange = value => {
+        setSelectedTeacher(value);
+    };
+
+    // Unikal o'qituvchilar nomlarini yig'ish
+    const teacherNames = Array.from(
+        new Set(data?.flatMap(s => s.teachers))
+    );
+
+    // Unikal fanlar nomlarini yig'ish
+    const subjectsNames = Array.from(
+        new Set(data?.flatMap(s => s.subjects))
+    );
+
+    // Fanlar tanlanganda ma'lumotlarni olish
+    const handleSubjectsChange = value => {
+        setSelectedSubjects(value);
+    };
+
+    const filteredData = data?.filter((g) => {
+        const matchesTeacher = selectedTeacher ? g?.teachers?.includes(selectedTeacher) : true;
+        const searchTermLower = searchTerm?.toLowerCase();
+        const matchesSearchTerm = g?.teachers?.some(teacher =>
+            teacher?.toLowerCase()?.includes(searchTermLower)
+        ) || g?.roomNumber?.toLowerCase()?.includes(searchTermLower) ||
+            g?.subjects?.toLowerCase()?.includes(searchTermLower);
+        return matchesTeacher && matchesSearchTerm;
+    });
+
     return (
         <div className="site-card-border-less">
+            <div style={{ width: "100%", display: "flex", alignItems: "center", gap: "10px", padding: "0 10px", marginTop: "8px" }}>
+                <Input
+                    placeholder="O'quvchilarni qidirish"
+                    style={{ width: "100%" }}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    prefix={<SearchOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                />
+                <Select
+                    style={{ width: 200 }}
+                    placeholder="O'qituvchini tanlang"
+                    onChange={handleTeacherChange}
+                    value={selectedTeacher}
+                    showSearch
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().includes(input.toLowerCase())
+                    }
+                >
+                    <Option value={null}>Ustozlar</Option>
+                    {teacherNames?.map(name => (
+                        <Option key={name} value={name}>
+                            {name}
+                        </Option>
+                    ))}
+                </Select>
+            </div>
             {data?.length === 0 ? (
                 <div style={{ width: "100%", height: "70vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Empty description="Ma'lumot yo'q" />
                 </div>
             ) : (
-                data?.map((lesson, inx) => (
+                filteredData?.map((lesson, inx) => (
                     <div key={inx} className="boxGroups">
                         <div className="top-bar" style={{ backgroundColor: getRandomColor() }}></div>
                         <div className="top">
