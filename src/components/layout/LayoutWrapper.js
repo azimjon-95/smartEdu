@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Space, Layout, Menu, Button } from 'antd';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Avatar, Space, Layout, Menu, Button, Popover, Modal } from 'antd';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { GiTakeMyMoney } from "react-icons/gi";
 import {
-    DollarOutlined, MenuFoldOutlined,
-    MenuUnfoldOutlined, TeamOutlined, FileTextOutlined, UserAddOutlined, UserOutlined
+    DollarOutlined, MenuFoldOutlined, LogoutOutlined, MenuUnfoldOutlined, TeamOutlined, FileTextOutlined, UserAddOutlined, UserOutlined
 } from '@ant-design/icons';
 import { useGetBalansQuery } from '../../context/balansApi.js';
 import logo from '../../assets/logo.png';
@@ -12,17 +11,15 @@ import collapsedLogo from '../../assets/collapsedLogo.jpg'; // Yangi rasm
 import './style.css';
 import Snowfall from '../snowFall/Snowfall';
 import { NumberFormat, PhoneNumberFormat } from '../../hook/NumberFormat.js';
-// import { UserOutlined } from '@ant-design/icons';
-
 
 const { Sider, Content } = Layout;
 
 const CustomLayout = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [selectedKey, setSelectedKey] = useState('1');
     const [collapsed, setCollapsed] = useState(false);
     const { data: balans, isLoading, error } = useGetBalansQuery();
-
 
     useEffect(() => {
         switch (location.pathname) {
@@ -46,6 +43,24 @@ const CustomLayout = () => {
                 break;
         }
     }, [location.pathname]);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("admin");
+        localStorage.removeItem("doctorMongoId");
+        navigate("/");
+    };
+
+    const content = (
+        <div style={{ display: "flex", alignItems: "start", flexDirection: "column" }}>
+            <Button type="link" icon={<UserOutlined />} onClick={() => navigate('/single_page')}>
+                Profil
+            </Button>
+            <Button style={{ color: "red", borderTop: ".5px solid #cfcfcf", borderRadius: '0px' }} type="link" icon={<LogoutOutlined />} onClick={handleLogout}>
+                Chiqish
+            </Button>
+        </div>
+    );
 
     return (
         <Layout style={{ minHeight: '100vh', overflow: "hidden", background: "#048e38" }}>
@@ -88,7 +103,6 @@ const CustomLayout = () => {
                     />
                     <Snowfall />
 
-
                     <Space style={{ zIndex: 3 }} wrap size={16}>
                         <NavLink style={{ textDecoration: "none", color: "#333", zIndex: 3 }} to="/balans">
                             <div className="allBalans">
@@ -106,9 +120,9 @@ const CustomLayout = () => {
                                 )}
                             </div>
                         </NavLink>
-                        <NavLink style={{ textDecoration: "none", color: "#333", zIndex: 3 }} to="/single_page">
+                        <Popover content={content} trigger="click">
                             <Avatar size="large" icon={<UserOutlined />} />
-                        </NavLink>
+                        </Popover>
                     </Space>
                 </div>
                 <Content>
@@ -117,7 +131,7 @@ const CustomLayout = () => {
                     </div>
                 </Content>
             </Layout>
-        </Layout >
+        </Layout>
     );
 };
 

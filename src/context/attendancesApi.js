@@ -4,9 +4,11 @@ export const attendancesApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getAttendances: builder.query({
             query: () => 'attendances',
+            providesTags: ['Attendances']
         }),
         getAttendanceById: builder.query({
             query: (id) => `attendances/${id}`,
+            providesTags: ['Attendances']
         }),
         createAttendance: builder.mutation({
             query: (newAttendance) => ({
@@ -14,6 +16,7 @@ export const attendancesApi = api.injectEndpoints({
                 method: 'POST',
                 body: newAttendance,
             }),
+            invalidatesTags: ['Attendances']
         }),
         updateAttendance: builder.mutation({
             query: ({ id, ...updatedAttendance }) => ({
@@ -21,12 +24,14 @@ export const attendancesApi = api.injectEndpoints({
                 method: 'PUT',
                 body: updatedAttendance,
             }),
+            invalidatesTags: ['Attendances']
         }),
         deleteAttendance: builder.mutation({
             query: (id) => ({
                 url: `attendances/${id}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: ['Attendances']
         }),
     }),
 });

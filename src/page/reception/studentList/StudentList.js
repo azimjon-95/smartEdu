@@ -93,19 +93,20 @@ const StudentList = () => {
             const registrationResponse = await updateRegistration({ id: result?._id, body: groupData });
             console.log(registrationResponse);
 
+            const studentData = {
+                state: 'active',
+            };
+            await updateStudentsState({ groupId: result?._id, body: studentData })
+                .then((res) => { console.log(res) })
+                .catch((err) => { console.log(err) });
+
             notification.success({
                 message: 'Muvaffaqiyatli',
                 description: 'Guruh muvaffaqiyatli ravishda aktivlashdi.',
             });
 
-
-            await updateStudentsState(result.groupId)
-                .then((res) => { console.log(res) })
-                .catch((err) => { console.log(err) })
-
-
-
             // Qo'shimcha amallar
+            navigate("/activeGroups");
             handleClearClick();
         } catch (error) {
             console.error(error);

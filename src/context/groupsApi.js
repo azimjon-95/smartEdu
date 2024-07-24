@@ -8,12 +8,15 @@ export const groupsApi = api.injectEndpoints({
         method: 'POST',
         body: newRegistration,
       }),
+      invalidatesTags: ['Registration']
     }),
     getAllRegistrations: builder.query({
       query: () => '/api/groups/',
+      providesTags: ['Registration']
     }),
     getRegistration: builder.query({
       query: (id) => `/api/groups/${id}`,
+      providesTags: ['Registration']
     }),
     updateRegistration: builder.mutation({
       query: ({ id, body }) => ({
@@ -21,12 +24,14 @@ export const groupsApi = api.injectEndpoints({
         method: 'PUT',
         body,
       }),
+      invalidatesTags: ['Registration']
     }),
     deleteRegistration: builder.mutation({
       query: (id) => ({
         url: `/api/groups/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Registration']
     }),
   }),
 });

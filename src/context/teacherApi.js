@@ -4,10 +4,12 @@ export const teacherApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getAllTeachers: builder.query({
             query: () => '/api/teacher',
+            providesTags: ['Teacher']
         }),
         getTeacherById: builder.query({
             query: (id) => `/api/teacher/${id}`,
-            providesTags: (result, error, id) => [{ type: 'Teacher', id }],
+            providesTags: (result, error, id) => [{ type: 'Teacher', id }
+            ],
         }),
         createTeacher: builder.mutation({
             query: (newTeacher) => ({
@@ -38,6 +40,7 @@ export const teacherApi = api.injectEndpoints({
                 method: 'POST',
                 body: credentials,
             }),
+            invalidTags: ["Teacher"]
         }),
     }),
 });

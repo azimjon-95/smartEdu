@@ -8,12 +8,15 @@ export const payStudentsApi = api.injectEndpoints({
                 method: 'POST',
                 body: payment,
             }),
+            invalidatesTags: ['Payment']
         }),
         getPayments: builder.query({
             query: () => '/api/payments',
+            providesTags: ['Payment']
         }),
         getPaymentById: builder.query({
             query: (id) => `/api/payments/${id}`,
+            providesTags: ['Payment']
         }),
         updatePayment: builder.mutation({
             query: ({ id, body }) => ({
@@ -21,12 +24,14 @@ export const payStudentsApi = api.injectEndpoints({
                 method: 'PUT',
                 body,
             }),
+            invalidatesTags: ['Payment']
         }),
         deletePayment: builder.mutation({
             query: (id) => ({
                 url: `/api/payments/${id}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: ['Payment']
         }),
     }),
 });

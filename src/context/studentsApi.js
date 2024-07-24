@@ -24,18 +24,19 @@ export const studentApi = api.injectEndpoints({
 
         }),
         updateStudentsState: builder.mutation({
-            query: (groupId) => ({
-                url: `/api/students/update-state/${groupId}`,
+            query: ({ groupId, body }) => ({
+                url: `/api/student/update-state/${groupId}`,
                 method: 'PUT',
+                body,
             }),
             invalidTags: ["Student"]
-
         }),
         deleteStudent: builder.mutation({
             query: (id) => ({
                 url: `/api/student/${id}`,
                 method: 'DELETE',
             }),
+            invalidTags: ["Student"]
         }),
     }),
 });

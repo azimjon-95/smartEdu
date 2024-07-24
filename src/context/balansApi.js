@@ -4,9 +4,11 @@ export const balansApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getBalans: builder.query({
             query: () => '/balans',
+            providesTags: ['Balans']
         }),
         getBalansById: builder.query({
             query: (id) => `/balans/${id}`,
+            providesTags: ['Balans']
         }),
         createBalans: builder.mutation({
             query: (newBalans) => ({
@@ -14,6 +16,7 @@ export const balansApi = api.injectEndpoints({
                 method: 'POST',
                 body: newBalans,
             }),
+            invalidatesTags: ['Balans']
         }),
         updateBalans: builder.mutation({
             query: ({ id, ...rest }) => ({
@@ -21,12 +24,14 @@ export const balansApi = api.injectEndpoints({
                 method: 'PUT',
                 body: rest,
             }),
+            invalidatesTags: ['Balans']
         }),
         deleteBalans: builder.mutation({
             query: (id) => ({
                 url: `/balans/${id}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: ['Balans']
         }),
     }),
 });
