@@ -71,11 +71,11 @@ const CustomLayout = () => {
     );
 
     const menuItems = [
-        { key: '1', icon: <FileTextOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/reports">Qabul Bo'limi</Link> },
-        { key: '2', icon: <TeamOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/activeGroups">Aktiv Guruhlar</Link> },
-        { key: '3', icon: <UserAddOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/createCards">Guruh Ochish</Link> },
-        { key: '4', icon: <UserOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/getTeacher">Ustozlar</Link> },
-        { key: '5', icon: <DollarOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/payController">To'lovlar</Link> },
+        { key: '1', icon: <FileTextOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/reports">{isMobile ? "Qabul" : "Qabul Bo'limi"}</Link> },
+        { key: '2', icon: <TeamOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/activeGroups">{isMobile ? "Guruhlar" : "Aktiv Guruhlar"}</Link> },
+        { key: '3', icon: <UserAddOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/createCards">{isMobile ? "Yangi Guruh" : "Guruh Ochish"}</Link> },
+        { key: '4', icon: <UserOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/getTeacher">{isMobile ? "Ustozlar" : "Ustozlar"}</Link> },
+        { key: '5', icon: <DollarOutlined style={isMobile ? { fontSize: '25px' } : {}} />, label: <Link style={{ textDecoration: "none" }} to="/payController">{isMobile ? "To'lov" : "To'lovlar"}</Link> },
     ];
 
     const renderMobileMenuItems = (items) => {
@@ -87,8 +87,7 @@ const CustomLayout = () => {
                         flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
-                        height: "60px"
-                        // backgroundColor: "#ff5733"
+                        height: "60px",
                     }
                 }
                     className="mobileBottom_menu"

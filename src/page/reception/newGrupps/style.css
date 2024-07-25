@@ -216,3 +216,39 @@ a {
         gap: 4px;
     }
 }
+
+@media (max-width: 370px) {
+    .content img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .boxGroups {
+        min-width: 155px;
+        padding: 3px;
+        margin: 3px;
+    }
+
+    .iconBox {
+        display: flex;
+        align-items: center;
+        gap: 1px;
+    }
+
+    .length_students {
+        gap: 4px;
+    }
+
+    .iconBox {
+        font-size: 12px;
+    }
+
+    .content strong {
+        font-size: 13px;
+
+    }
+
+    .content p {
+        font-size: 0.8rem;
+    }
+}
