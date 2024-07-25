@@ -62,14 +62,14 @@ function Login({ setIsLoggedIn }) {
 
     return (
         <div className="containerMobile">
-            <div className="row border rounded-5 bg-white shadow box-area">
+            <div className="row border bg-white shadow box-area">
                 <div className="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
                     style={{ background: '#103cbe' }}>
                     <div className="featured-image mb-3">
                         <img src={images} className="img-fluid" style={{ width: '250px' }} alt="Featured" />
                     </div>
                     <p className="text-white fs-2" style={{ fontFamily: 'Courier New, Courier, monospace', fontWeight: 600 }}>SmartEdu</p>
-                    <small className="text-white text-wrap text-center" style={{ width: '17rem', fontFamily: 'Courier New, Courier, monospace' }}>
+                    <small id="text-mobile" className="text-white text-wrap text-center" style={{ width: '17rem', fontFamily: 'Courier New, Courier, monospace' }}>
                         Ta'limni raqamlashtirishda yangi davrga qadam qo'ying!
                     </small>
                 </div>
