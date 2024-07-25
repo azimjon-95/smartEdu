@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000',
+  // baseUrl: 'http://localhost:5000',
+  baseURL: "https://smart-edu-server.vercel.app/",
+
   prepareHeaders: (headers) => {
     const token = localStorage.getItem('token');
     if (token) {
