@@ -61,8 +61,8 @@ function Login({ setIsLoggedIn }) {
     };
 
     return (
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
-            <div className="row border rounded-5 p-3 bg-white shadow box-area">
+        <div className="containerMobile">
+            <div className="row border rounded-5 bg-white shadow box-area">
                 <div className="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
                     style={{ background: '#103cbe' }}>
                     <div className="featured-image mb-3">
