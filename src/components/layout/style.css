@@ -88,3 +88,40 @@
     padding: 2px 10px;
     z-index: 5;
 }
+
+/* style.css */
+
+@media (max-width: 768px) {
+    .custom-sider {
+        display: none;
+    }
+
+    .custom-menu-horizontal {
+        display: block;
+        display: flex;
+        height: 60px;
+        z-index: 5;
+    }
+
+    .MenuMobile {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    .mobileBottom_menu>span {
+        line-height: 22px;
+    }
+
+    .Space_mobile {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.custom-menu-horizontal {
+    display: none;
+}

@@ -197,3 +197,22 @@ a {
     background-color: #507bfc;
     transition: all ease 0.5s;
 }
+
+
+@media (max-width: 768px) {
+    .boxGroups {
+        min-width: 180px;
+        padding: 3px;
+        margin: 3px;
+    }
+
+    .iconBox {
+        display: flex;
+        align-items: center;
+        gap: 1px;
+    }
+
+    .length_students {
+        gap: 4px;
+    }
+}

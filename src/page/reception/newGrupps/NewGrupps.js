@@ -8,20 +8,18 @@ import image5 from '../../../assets/eng4.jpg';
 import { FaUsers } from "react-icons/fa";
 import { FaWeebly } from "react-icons/fa";
 import { IoTimeOutline } from "react-icons/io5";
-import { NumberFormat, PhoneNumberFormat } from '../../../hook/NumberFormat';
 import { BsDoorOpen } from "react-icons/bs";
 import { IoMdPersonAdd } from "react-icons/io";
 import './style.css';
 import { useGetAllRegistrationsQuery } from '../../../context/groupsApi';
 import { Input, Select, Empty } from 'antd';
-import { SearchOutlined, DollarOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
 const NewGrupps = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTeacher, setSelectedTeacher] = useState(null);
-    const [selectedSubjects, setSelectedSubjects] = useState(null);
     const { data: gruups } = useGetAllRegistrationsQuery();
     const data = gruups?.filter((i) => i.state === "new"); // active
 
@@ -63,15 +61,6 @@ const NewGrupps = () => {
         new Set(data?.flatMap(s => s.teachers))
     );
 
-    // Unikal fanlar nomlarini yig'ish
-    const subjectsNames = Array.from(
-        new Set(data?.flatMap(s => s.subjects))
-    );
-
-    // Fanlar tanlanganda ma'lumotlarni olish
-    const handleSubjectsChange = value => {
-        setSelectedSubjects(value);
-    };
 
     const filteredData = data?.filter((g) => {
         const matchesTeacher = selectedTeacher ? g?.teachers?.includes(selectedTeacher) : true;

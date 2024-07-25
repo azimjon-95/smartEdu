@@ -92,7 +92,7 @@ h2 svg {
     border-radius: 50%;
     background-image: url(../../../assets/profile.jpg);
     background-size: cover;
-    border: 1px solid #212b5e;
+    border: 1px solid #2e48cb;
     position: relative;
     left: -27px;
 
@@ -164,3 +164,8 @@ h2 svg {
     top: 30px;
     left: 143px;
 }
+
+
+
+
+@media (max-width: 768px) {}
