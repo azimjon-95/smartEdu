@@ -7,6 +7,8 @@ import './teachersTable.css';
 import { UserAddOutlined } from '@ant-design/icons';
 import { capitalizeFirstLetter } from '../../../hook/CapitalizeFirstLitter';
 import { useGetAllRegistrationsQuery } from '../../../context/groupsApi';
+import LoadingSpinner from '../../../components/LoadingSpinner'; // Importing the LoadingSpinner component
+
 
 const TeachersTable = () => {
     const { data: students } = useGetStudentQuery();
@@ -189,6 +191,9 @@ const TeachersTable = () => {
         return <Alert message="Xato" description={error.message} type="error" showIcon />;
     }
 
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
     return (
         <>
             <div style={{ width: "100%", display: "flex", justifyContent: "space-between", gap: "20px", padding: "0 10px" }}>

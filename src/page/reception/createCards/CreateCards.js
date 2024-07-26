@@ -6,6 +6,8 @@ import { useCreateRegistrationMutation, useGetAllRegistrationsQuery, useDeleteRe
 import { subjects } from '../../../utils/subjects';
 import { useGetAllTeachersQuery } from '../../../context/teacherApi';
 import { capitalizeFirstLetter } from '../../../hook/CapitalizeFirstLitter';
+import LoadingSpinner from '../../../components/LoadingSpinner'; // Importing the LoadingSpinner component
+
 const { Option, OptGroup } = Select;
 const { Search } = Input;
 
@@ -147,6 +149,11 @@ const CreateCards = () => {
         value: item._id,
         label: `${capitalizeFirstLetter(item.subject)} (${capitalizeFirstLetter(item.firstName)} ${capitalizeFirstLetter(item.lastName)})`,
     }));
+
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <div className='TableGrups'>

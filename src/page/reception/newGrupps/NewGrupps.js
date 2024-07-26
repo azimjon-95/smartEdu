@@ -14,13 +14,14 @@ import './style.css';
 import { useGetAllRegistrationsQuery } from '../../../context/groupsApi';
 import { Input, Select, Empty } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import LoadingSpinner from '../../../components/LoadingSpinner'; // Importing the LoadingSpinner component
 
 const { Option } = Select;
 
 const NewGrupps = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTeacher, setSelectedTeacher] = useState(null);
-    const { data: gruups } = useGetAllRegistrationsQuery();
+    const { data: gruups, isLoading } = useGetAllRegistrationsQuery();
     const data = gruups?.filter((i) => i.state === "new"); // active
 
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FF8333', '#33FFF1', '#8333FF', '#33FF83', '#FF3333', '#33FFA5'];
@@ -35,8 +36,6 @@ const NewGrupps = () => {
         const randomIndex = Math.floor(Math.random() * images?.length);
         return images[randomIndex];
     };
-
-
 
     const getScheduleText = (schedule) => {
         switch (schedule) {
@@ -61,7 +60,6 @@ const NewGrupps = () => {
         new Set(data?.flatMap(s => s.teachers))
     );
 
-
     const filteredData = data?.filter((g) => {
         const matchesTeacher = selectedTeacher ? g?.teachers?.includes(selectedTeacher) : true;
         const searchTermLower = searchTerm?.toLowerCase();
@@ -71,6 +69,11 @@ const NewGrupps = () => {
             g?.subjects?.toLowerCase()?.includes(searchTermLower);
         return matchesTeacher && matchesSearchTerm;
     });
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
+
 
     return (
         <div className="site-card-border-less">

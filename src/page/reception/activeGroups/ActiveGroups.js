@@ -13,11 +13,12 @@ import './style.css';
 import { useGetAllRegistrationsQuery } from '../../../context/groupsApi';
 import { Input, Select, Empty } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import LoadingSpinner from '../../../components/LoadingSpinner'; // Importing the LoadingSpinner component
 
 const { Option } = Select;
 
 const GroupInfoComponent = () => {
-    const { data: gruups } = useGetAllRegistrationsQuery();
+    const { data: gruups, isLoading } = useGetAllRegistrationsQuery();
     const data = gruups?.filter((i) => i.state === "active") // active
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTeacher, setSelectedTeacher] = useState(null);
@@ -68,6 +69,9 @@ const GroupInfoComponent = () => {
         return matchesTeacher && matchesSearchTerm;
     });
 
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
     return (
         <div className="site-card-border-less">
 
@@ -98,6 +102,7 @@ const GroupInfoComponent = () => {
                 </Select>
 
             </div>
+
             {data?.length === 0 ? (
                 <div style={{ width: "100%", height: "70vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Empty description="Ma'lumot yo'q" />
