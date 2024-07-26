@@ -108,6 +108,12 @@
         bottom: 0;
         right: 0;
         left: 0;
+        background: rgb(33, 37, 41);
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 2px 10px;
+        gap: 5px;
     }
 
     .mobileBottom_menu>span {
@@ -121,8 +127,47 @@
         align-items: center;
     }
 
+    .mobileBottom_menu {
+        color: #b8b8b8;
+        z-index: 5;
+    }
+
     .mobileBottom_menu span a {
         width: 100%;
+    }
+
+    /* Barcha menyu elementlarini bir qator qilib ko'rsatish */
+    .menu-horizontal {
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        /* Menyuni o'ngga scroll qilish imkonini beradi */
+        white-space: nowrap;
+        /* Elementlarning bir qatorga joylashishini ta'minlaydi */
+    }
+
+    /* Scroll uchun qidirish oynasi */
+    .menu-horizontal::-webkit-scrollbar {
+        height: 4px;
+        /* Scroll bar balandligi */
+    }
+
+    .menu-horizontal::-webkit-scrollbar-thumb {
+        background-color: #888;
+        /* Scroll bar rangi */
+        border-radius: 4px;
+        /* Radius */
+    }
+
+    .menu-horizontal::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+        /* Hover holatda scroll bar rangi */
+    }
+
+    .ant-menu-overflow-item-rest {
+        display: none;
+        /* O'zgarishi kerak bo'lgan bo'limni ko'rsatadi */
     }
 }
 
