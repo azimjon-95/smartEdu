@@ -146,7 +146,7 @@ const PayController = () => {
                                 <tbody>
                                     {filteredStudents?.map((item, index) => (
                                         <tr key={index}>
-                                            <td data-label="Ismi va Familiyasi">{capitalizeFirstLetter(item.firstName)} {item.lastName}</td>
+                                            <td data-label="Ism Familya">{capitalizeFirstLetter(item.firstName)} {item.lastName}</td>
                                             <td data-label="Telefon raqami" className="is-progress-cell">{PhoneNumberFormat(item.studentPhoneNumber)} </td>
                                             <td data-label="Ota-onaning telefon raqami" className="is-progress-cell">{PhoneNumberFormat(item.parentPhoneNumber)} </td>
                                             <td data-label="Ustozi" className="is-progress-cell">{item.teacherFullName} </td>
