@@ -14,6 +14,7 @@ import { useGetAllRegistrationsQuery } from '../../../context/groupsApi';
 import { Input, Select, Empty } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import LoadingSpinner from '../../../components/LoadingSpinner'; // Importing the LoadingSpinner component
+import Students from './students';
 
 const { Option } = Select;
 
@@ -134,7 +135,7 @@ const GroupInfoComponent = () => {
                                     <BsDoorOpen />  {lesson?.roomNumber}
                                 </div>
                                 <p>|</p>
-                                <Link to={`/studentList/${lesson._id}`}>
+                                <Link to={`/Students/${lesson._id}`}>
                                     <a>Kirish</a>
                                 </Link>
                             </div>
