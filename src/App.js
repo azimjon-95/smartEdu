@@ -26,18 +26,20 @@ function App() {
   }
 
   return (
-    <Routes>
-      {isLoggedIn ? (
-        <Route element={<LayoutWrapper />}>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element} />
-          ))}
-        </Route>
-      ) : (
-        <Route path='/login' element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-      )}
-      {!isLoggedIn && <Route path="*" element={<Login setIsLoggedIn={setIsLoggedIn} />} />}
-    </Routes>
+    <>
+      <Routes>
+        {isLoggedIn ? (
+          <Route element={<LayoutWrapper />}>
+            {routes.map((route, index) => (
+              <Route key={index} path={route.path} element={route.element} />
+            ))}
+          </Route>
+        ) : (
+          <Route path='/login' element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        )}
+        {!isLoggedIn && <Route path="*" element={<Login setIsLoggedIn={setIsLoggedIn} />} />}
+      </Routes>
+    </>
   );
 }
 

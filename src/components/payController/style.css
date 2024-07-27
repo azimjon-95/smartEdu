@@ -20,7 +20,7 @@
     margin: 0;
     background: #ffffff;
     border: .2px solid rgb(216, 216, 216);
-    height: 40px;
+    height: 43px;
     border-radius: 10px;
     padding: 0 10px;
 }
@@ -48,3 +48,5 @@
     gap: 5px;
 
 }
+
+@media (max-width: 768px) {}
