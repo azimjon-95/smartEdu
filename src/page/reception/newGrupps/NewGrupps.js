@@ -8,21 +8,20 @@ import image5 from '../../../assets/eng4.jpg';
 import { FaUsers } from "react-icons/fa";
 import { FaWeebly } from "react-icons/fa";
 import { IoTimeOutline } from "react-icons/io5";
-import { NumberFormat, PhoneNumberFormat } from '../../../hook/NumberFormat';
 import { BsDoorOpen } from "react-icons/bs";
 import { IoMdPersonAdd } from "react-icons/io";
 import './style.css';
 import { useGetAllRegistrationsQuery } from '../../../context/groupsApi';
 import { Input, Select, Empty } from 'antd';
-import { SearchOutlined, DollarOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
+import LoadingSpinner from '../../../components/LoadingSpinner'; // Importing the LoadingSpinner component
 
 const { Option } = Select;
 
 const NewGrupps = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTeacher, setSelectedTeacher] = useState(null);
-    const [selectedSubjects, setSelectedSubjects] = useState(null);
-    const { data: gruups } = useGetAllRegistrationsQuery();
+    const { data: gruups, isLoading } = useGetAllRegistrationsQuery();
     const data = gruups?.filter((i) => i.state === "new"); // active
 
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FF8333', '#33FFF1', '#8333FF', '#33FF83', '#FF3333', '#33FFA5'];
@@ -37,8 +36,6 @@ const NewGrupps = () => {
         const randomIndex = Math.floor(Math.random() * images?.length);
         return images[randomIndex];
     };
-
-
 
     const getScheduleText = (schedule) => {
         switch (schedule) {
@@ -63,16 +60,6 @@ const NewGrupps = () => {
         new Set(data?.flatMap(s => s.teachers))
     );
 
-    // Unikal fanlar nomlarini yig'ish
-    const subjectsNames = Array.from(
-        new Set(data?.flatMap(s => s.subjects))
-    );
-
-    // Fanlar tanlanganda ma'lumotlarni olish
-    const handleSubjectsChange = value => {
-        setSelectedSubjects(value);
-    };
-
     const filteredData = data?.filter((g) => {
         const matchesTeacher = selectedTeacher ? g?.teachers?.includes(selectedTeacher) : true;
         const searchTermLower = searchTerm?.toLowerCase();
@@ -82,6 +69,11 @@ const NewGrupps = () => {
             g?.subjects?.toLowerCase()?.includes(searchTermLower);
         return matchesTeacher && matchesSearchTerm;
     });
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
+
 
     return (
         <div className="site-card-border-less">

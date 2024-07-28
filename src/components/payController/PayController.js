@@ -11,7 +11,10 @@ import {
   UsergroupDeleteOutlined,
 } from "@ant-design/icons";
 import "./style.css";
+import "../table-Css/css/bulma.min.css";
+import "../table-Css/css/main.min.css";
 import { NumberFormat, PhoneNumberFormat } from "../../hook/NumberFormat";
+import { capitalizeFirstLetter } from "../../hook/CapitalizeFirstLitter";
 
 const { Option } = Select;
 
@@ -99,75 +102,6 @@ const PayController = () => {
     setSelectedStudent(record._id);
   };
 
-  const columns = [
-    {
-      title: "Ismi va Familiyasi",
-      key: "name",
-      render: (text, record) => (
-        <span>
-          {record.firstName} {record.lastName}
-        </span>
-      ),
-    },
-    {
-      title: "Telefon raqami",
-      dataIndex: "studentPhoneNumber",
-      key: "studentPhoneNumber",
-      render: (text, record) => (
-        <span>{PhoneNumberFormat(record.studentPhoneNumber)} </span>
-      ),
-    },
-    {
-      title: "Ota-onaning telefon raqami",
-      dataIndex: "parentPhoneNumber",
-      key: "parentPhoneNumber",
-      render: (text, record) => (
-        <span>{PhoneNumberFormat(record.parentPhoneNumber)} </span>
-      ),
-    },
-    {
-      title: "Ustozi",
-      dataIndex: "teacherFullName",
-      key: "teacherFullName",
-    },
-    {
-      title: "Fani",
-      dataIndex: "subject",
-      key: "subject",
-    },
-    {
-      title: "Qarzdorlik",
-      dataIndex: "indebtedness",
-      key: "indebtedness",
-      render: (text, record) =>
-        record.indebtedness.debtorPay === 0
-          ? 0
-          : `${NumberFormat(record.indebtedness.debtorPay)} so'm`,
-    },
-    {
-      title: "To'lov",
-      key: "payment",
-      render: (text, record) => (
-        <div className="payment-container">
-          <Input
-            style={{ width: "100px" }}
-            type="number"
-            placeholder="To'lov miqdori"
-            value={selectedStudent === record._id ? inputValue : ""}
-            onChange={(e) => handleInputChange(e, record)}
-          />
-          <Button
-            type="primary"
-            onClick={() => handlePayment(record._id)}
-            disabled={!paymentAmount || selectedStudent !== record._id}
-          >
-            To'lash
-          </Button>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <>
       <h2 className="pay-controller-title">To'lov bo'limi</h2>
@@ -206,13 +140,82 @@ const PayController = () => {
           Jami qarzdorlar: {filteredStudents?.length}
         </p>
       </div>
-      <Table
-        pagination={false}
-        size="small"
-        columns={columns}
-        dataSource={filteredStudents}
-        rowKey="_id"
-      />
+
+      <section style={{ padding: "0", margin: "0" }} className="section">
+        <div style={{ padding: "0", margin: "0" }} className="container">
+          <div className="b-table">
+            <div className="table-wrapper has-mobile-cards">
+              <table className="table is-fullwidth is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Ism Familya</th>
+                    <th>Telefon raqaml</th>
+                    <th>Ote ona telefon raqami</th>
+                    <th>Ustozi</th>
+                    <th>Fani</th>
+                    <th>Qarzdorlik</th>
+                    <th>To'lov</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredStudents?.map((item, index) => (
+                    <tr key={index}>
+                      <td data-label="Ism Familya">
+                        {capitalizeFirstLetter(item.firstName)} {item.lastName}
+                      </td>
+                      <td
+                        data-label="Telefon raqami"
+                        className="is-progress-cell"
+                      >
+                        {PhoneNumberFormat(item.studentPhoneNumber)}{" "}
+                      </td>
+                      <td
+                        data-label="Ota-onaning telefon raqami"
+                        className="is-progress-cell"
+                      >
+                        {PhoneNumberFormat(item.parentPhoneNumber)}{" "}
+                      </td>
+                      <td data-label="Ustozi" className="is-progress-cell">
+                        {item.teacherFullName}{" "}
+                      </td>
+                      <td data-label="Fani" className="is-progress-cell">
+                        {item.subject}{" "}
+                      </td>
+                      <td data-label="Qarzdorlik" className="is-progress-cell">
+                        {item.indebtedness.debtorPay === 0
+                          ? 0
+                          : `${NumberFormat(item.indebtedness.debtorPay)}`}{" "}
+                      </td>
+                      <td data-label="To'lov" className="is-actions-cell">
+                        <div className="payment-container">
+                          <Input
+                            style={{ width: "100px" }}
+                            type="number"
+                            placeholder="To'lov miqdori"
+                            value={
+                              selectedStudent === item?._id ? inputValue : ""
+                            }
+                            onChange={(e) => handleInputChange(e, item)}
+                          />
+                          <Button
+                            type="primary"
+                            onClick={() => handlePayment(item?._id)}
+                            disabled={
+                              !paymentAmount || selectedStudent !== item?._id
+                            }
+                          >
+                            To'lash
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 };
