@@ -147,7 +147,7 @@ const CustomLayout = () => {
         {
             key: '6',
             icon: <FileDoneOutlined style={isMobile ? { fontSize: '22px' } : {}} />,
-            label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/payController">
+            label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/certificate">
                 {isMobile ? "Sertifikat" : "Sertifikat bo'limi"}
             </Link>
         },
