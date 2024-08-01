@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, DatePicker, Select, Row, Col } from 'antd';
 import { useCreateTeacherMutation } from '../../../context/teacherApi'; // Ensure the correct path
 import { subjects } from '../../../utils/subjects';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { PhoneInput } from "react-international-phone";
 
 const { Option, OptGroup } = Select;
 const nationalityOptions = [
@@ -16,10 +17,12 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const [createTeacher] = useCreateTeacherMutation();
     const [form] = Form.useForm();
+    const [phone, setPhone] = useState("");
 
     const onFinish = async (values) => {
-        console.log('Success:', values);
         try {
+            values.teacherType = "owner";
+            values.phone = phone;
             const response = await createTeacher(values);
             console.log('Ro‘yxatdan o‘tish muvaffaqiyatli:', response);
             navigate("/getTeacher");
@@ -132,12 +135,15 @@ const RegisterPage = () => {
                     </Form.Item>
                 </Col>
                 <Col span={8}>
-                    <Form.Item
-                        name="phone"
-                        label="Telefon"
-                        rules={[{ required: true, message: 'Iltimos, telefon raqamingizni kiriting' }]}
-                    >
-                        <Input />
+                    <Form.Item label="Telefon raqami" name="studentPhoneNumber">
+                        <PhoneInput
+                            defaultCountry="uz"
+                            value={phone}
+                            onChange={(e) => e.length === 13 && setPhone(e)}
+                            inputStyle={{ width: "100%" }}
+                            className="PhoneInput"
+                            placeholder="+998 xx xxx-xx-xx"
+                        />
                     </Form.Item>
                 </Col>
             </Row>

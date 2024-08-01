@@ -1,9 +1,19 @@
-import React from 'react'
+import React from 'react';
+import './style.css';
+import PortfolioPerformance from './Performance';
+import TechnicalSupport from './Support';
+import TimelineExample from './TimelineExample';
 
-const Balans = () => {
+function Balans() {
     return (
-        <div>Balans</div>
-    )
+        <div className="dashboard">
+            <PortfolioPerformance />
+            <div className="content_balans">
+                <TechnicalSupport />
+                <TimelineExample />
+            </div>
+        </div>
+    );
 }
 
-export default Balans
+export default Balans;

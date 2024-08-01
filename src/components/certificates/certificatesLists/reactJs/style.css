@@ -1,0 +1,420 @@
+/* .pdf_driver {
+    width: 40%;
+    height: calc(100vh - 220px);
+    overflow: auto;
+    position: relative;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border: 2px solid black;
+    margin: auto;
+    border-radius: 8px;
+} */
+.pdf_driver {
+    width: 100%;
+    height: calc(100vh - 180px);
+    min-height: calc(100vh - 180px);
+    overflow: auto;
+    position: relative;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+
+}
+
+.pdf_driverTitle {
+    text-align: center;
+    padding: 16px 0;
+    color: gray;
+    text-transform: uppercase;
+}
+
+.zoom_btns {
+    width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    position: sticky;
+    top: 7px;
+    left: 0;
+    z-index: 12;
+    margin: auto;
+}
+
+.zoom_btns button {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 0 8px #6969fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: #6969fdc2;
+    color: #fff;
+}
+
+.zoom_btns button:hover {
+    background: #6969fd;
+}
+
+.zoom_btns button:active {
+    transform: scale(1.1);
+    opacity: .8;
+}
+
+
+
+.React_Container {
+    min-width: 210mm;
+    width: 210mm;
+    height: 295.5mm;
+    min-height: 295.5mm;
+    margin: 5px auto;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #d4ff00; */
+}
+
+
+
+/* -------MAIN------- */
+.certificat_BoxReact {
+    width: 100%;
+    /* height: 1000px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    margin-top: 110px;
+}
+
+.Title_React {
+    font-size: 80px;
+    font-weight: 600;
+    letter-spacing: 10px;
+    color: #0e2f42;
+    text-align: center;
+}
+
+.item_Re {
+    font-size: 55px;
+    color: rgba(0, 128, 0, 0.525);
+}
+
+.ReId {
+    color: #000000;
+    font-size: 25px;
+    letter-spacing: 4px;
+    margin-top: 20px;
+
+}
+
+.Regiven {
+    color: #000000;
+    font-size: 25px;
+    letter-spacing: 2px;
+    margin-top: 50px;
+}
+
+
+
+
+.NameRe {
+    color: #0e2f42;
+    font-size: 55px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-align: center;
+
+}
+
+.textRe {
+    color: #000000;
+    font-size: 21px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 30px;
+}
+
+.listnode {
+    color: #0e2f42;
+
+    font-size: 21px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 35px;
+    margin-top: 15px;
+}
+
+.signatureReact-1 {
+    width: 180px;
+    height: 90px;
+    border-top: 1px solid #0e2f42;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    gap: 5px;
+    padding-top: 5px;
+    font-size: 16px;
+    color: #0e2f42;
+
+
+}
+
+.signatureReact-2 {
+    width: 180px;
+    height: 60px;
+    border-top: 1px solid #0e2f42;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    gap: 5px;
+    padding-top: 5px;
+    font-size: 16px;
+    color: #0e2f42;
+
+
+}
+
+.signatureReact-2>p {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding: 2px;
+}
+
+
+
+.stamp {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    border: 10px double transparent;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: transparent;
+}
+
+.reFooter {
+    width: 70%;
+    margin-top: 30px;
+    height: 170px;
+    display: flex;
+    margin-left: 50px;
+    align-items: center;
+    /* background-color: #ecd803; */
+    justify-content: space-between;
+}
+
+.signatRe {
+    margin-top: 15px;
+
+
+}
+
+.QRCode {
+    height: 130px;
+    width: 130px;
+    border: 2px solid #0e2f42;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+
+
+.LogoNode {
+    opacity: 20%;
+    position: absolute;
+    top: 300px;
+    left: 10px;
+    width: 96%;
+}
+
+.LogoLogo {
+    position: absolute;
+    top: 300px;
+    left: -140px;
+    width: 35%;
+}
+
+.LogoLogo1 {
+    position: absolute;
+    top: 600px;
+    right: -110px;
+    width: 25%;
+}
+
+.LogoLogo2 {
+    position: absolute;
+    bottom: -90px;
+    right: auto;
+    width: 30%;
+}
+
+/* ------------------ */
+
+.Reactbox-1 {
+    width: 30px;
+    height: 220px;
+    position: absolute;
+    border-left: 18px double #0e2f42;
+    left: 5px;
+    top: 5px;
+}
+
+.Reactbox-2 {
+    width: 220px;
+    height: 30px;
+    position: absolute;
+    border-top: 20px double #0e2f42;
+    left: 5px;
+    top: 15px;
+}
+
+.Reactbox-3 {
+    width: 290px;
+    height: 290px;
+    background: linear-gradient(to left bottom, #0e2f42d7 50%, transparent 50%);
+    position: absolute;
+    top: -80px;
+    right: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+
+.Reactbox-5 {
+    width: 290px;
+    height: 290px;
+    background: linear-gradient(to left bottom, #0f558fa8 50%, transparent 50%);
+    position: absolute;
+    top: -80px;
+    right: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.Reactbox-4 {
+    width: 290px;
+    height: 290px;
+    background: linear-gradient(to left bottom, #0e2f42d7 50%, transparent 50%);
+    position: absolute;
+    top: -80px;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* -------Bottom------- */
+
+
+.ReactboxBottom-1 {
+    width: 290px;
+    height: 290px;
+    background: linear-gradient(to left bottom, #0e2f42d7 50%, transparent 50%);
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -200px;
+    left: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.ReactboxBottom-2 {
+    width: 290px;
+    height: 290px;
+    background: linear-gradient(to left bottom, #0e2f42d7 50%, transparent 50%);
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -200px;
+    left: -145px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ReactboxBottom-3 {
+    width: 290px;
+    height: 290px;
+    background: linear-gradient(to left bottom, #0f558fa8 50%, transparent 50%);
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -200px;
+    left: -80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ReactboxBottom-5 {
+    width: 90px;
+    height: 330px;
+    border-left: 100px double rgb(0, 121, 79);
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -100px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ReactboxBottom-4 {
+    width: 90px;
+    height: 330px;
+    border-left: 100px double #0e2f42;
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -230px;
+    right: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.ReactboxBottom-6 {
+    width: 90px;
+    height: 330px;
+    border-left: 35px solid rgb(255, 255, 255);
+    position: absolute;
+    transform: rotate(-45deg);
+    bottom: -185px;
+    right: -50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+
+.Reactbox-4_text {
+    position: absolute;
+    left: 40px;
+    top: 45px;
+    width: 310px;
+    height: 130px;
+    font-size: 14px;
+    word-spacing: 5px;
+    line-height: 20px;
+}

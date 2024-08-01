@@ -12,6 +12,7 @@ import PayController from '../components/payController/PayController';
 import Balans from '../page/owner/balans/Balans';
 import Single_page from '../components/workersSinglePage/WorkersSinglePage';
 import Students from '../page/reception/activeGroups/students';
+import Groups from '../page/teacher/groups/Groups';
 
 export const routes = [
     { path: '/register/:id', element: <Register /> },
@@ -22,6 +23,7 @@ export const routes = [
     { path: '/getTeacher', element: <TeachersTable /> },
     { path: '/payController', element: <PayController /> },
     { path: '/balans', element: <Balans /> },
+    { path: '/groups', element: <Groups /> },
     { path: '/single_page', element: <Single_page /> },
     { path: '/studentList/:id', element: <StudentList /> },
     { path: '/students/:id', element: <Students /> },

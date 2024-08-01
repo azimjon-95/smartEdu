@@ -1,0 +1,248 @@
+.portfolio-performance-main {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px 10px 20px 10px;
+}
+
+.portfolio-performance-main p {
+    font-weight: 600;
+    color: gray;
+    font-size: 18px;
+    text-align: center;
+}
+
+.portfolio-performance-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.portfolio-performance {
+    display: flex;
+    justify-content: space-around;
+    padding: 7px;
+    border-top: .5px solid #d6d6d6;
+    border-bottom: .5px solid #d6d6d6;
+    background: #fff;
+
+}
+
+.portfolio-performance-item-icon {
+    height: 50px;
+    border-radius: 50%;
+    width: 50px;
+    background: rgb(252, 191, 37);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.daromar-statistikasi {
+    width: 100%;
+    height: 28px;
+    display: flex;
+    align-items: center;
+}
+
+.daromad-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.daromad-btns button {
+    background-color: #e3e3e3;
+    border-radius: 50%;
+    padding: 4px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portfolio-performance-item-icon svg {
+    font-size: 25px;
+}
+
+.icon-color1 {
+    background: rgb(0, 51, 255);
+}
+
+.icon-color2 {
+    background: rgb(47, 255, 0);
+}
+
+.icon-color3 {
+    background: rgb(255, 0, 0);
+}
+
+.performance-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    /* width: 70%; */
+}
+
+
+.performance-item p {
+    line-height: 26px;
+    margin: 0;
+    color: gray;
+    font-size: 14px;
+}
+
+.performance-item h3 {
+    font-weight: 700;
+    line-height: 40px;
+    margin: 0;
+}
+
+.view-report-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .portfolio-performance {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+/* ------------- */
+.technical-support {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+.support-content {
+    text-align: center;
+}
+
+.graph {
+    height: 200px;
+    background-color: #dcdcdc;
+    margin: 20px 0;
+}
+
+.sales-progress {
+    text-align: left;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .technical-support {
+        margin: 10px;
+    }
+
+    .graph {
+        height: 150px;
+    }
+}
+
+/* -------------------- */
+
+.timeline-example {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+.timeline-example ul {
+    list-style: none;
+    padding: 0;
+}
+
+.timeline-example li {
+    margin: 10px 0;
+}
+
+.view-messages-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .timeline-example {
+        margin: 10px;
+    }
+}
+
+
+/* ------------------------- */
+
+.dashboard {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    background: #ececec;
+}
+
+.header_balans {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.variation-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.variation-btn {
+    padding: 6px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px #0056b3;
+    transition: all 0.2s ease;
+}
+
+.variation-btn:active {
+    box-shadow: 0 2px #0056b3;
+    transform: translateY(2px);
+}
+
+.variation-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.content_balans {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .header_balans {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .content_balans {
+        flex-direction: column;
+    }
+}

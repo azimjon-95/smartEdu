@@ -21,7 +21,6 @@ const PayController = () => {
     const [inputValue, setInputValue] = useState('');
     const [selectedTeacher, setSelectedTeacher] = useState(null);
 
-    console.log(data);
     const mainData = data?.filter((s) => s.state === "active")
     // Unikal o'qituvchilar nomlarini yig'ish
     const teacherNames = Array.from(

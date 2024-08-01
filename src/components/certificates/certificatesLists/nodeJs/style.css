@@ -1,0 +1,341 @@
+.Node_Container {
+    min-width: 210mm;
+    width: 210mm;
+    height: 295.5mm;
+    min-height: 295.5mm;
+    margin: 5px auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid black; */
+}
+
+
+/* -------MAIN------- */
+.certificat_BoxNode {
+    width: 100%;
+    /* height: 1000px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    margin-top: 170px;
+}
+
+.Title_Node {
+    font-size: 90px;
+    font-weight: 600;
+    letter-spacing: 10px;
+    color: #000000;
+}
+
+.item_Node {
+    font-size: 55px;
+    color: rgba(0, 128, 0, 0.525);
+}
+
+.NoId {
+    color: #000000;
+    font-size: 25px;
+    letter-spacing: 4px;
+    margin-top: 0px;
+
+}
+
+.Nogiven {
+    color: #000000;
+    font-size: 25px;
+    letter-spacing: 2px;
+    margin-top: 50px;
+}
+
+
+
+
+.Namenode {
+    color: rgb(0, 128, 0);
+    font-size: 55px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-align: center;
+
+}
+
+.textnode {
+    color: #000000;
+    font-size: 21px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 35px;
+    margin-top: 15px;
+}
+
+.listnode {
+    color: rgba(0, 128, 0, 0.674);
+
+    font-size: 21px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 35px;
+    margin-top: 15px;
+}
+
+.signatureBoxNo {
+    width: 160px;
+    height: 90px;
+    border-top: 1px solid black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 5px;
+    font-size: 17px;
+}
+
+.signatureBoxNo:nth-child(2) {
+    height: 50px;
+    width: 180px;
+
+}
+
+
+
+.stamp {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    border: 10px double transparent;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: transparent;
+}
+
+.nodeFooter {
+    width: 70%;
+    margin-top: 30px;
+    height: 170px;
+    display: flex;
+    margin-left: 50px;
+    align-items: center;
+    /* background-color: #ecd803; */
+    justify-content: space-between;
+}
+
+.signat {
+    margin-top: 15px;
+}
+
+.QRCode {
+    height: 130px;
+    width: 130px;
+    border: 2px solid rgba(0, 128, 0, 0.525);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.LogoNode {
+    opacity: 20%;
+    position: absolute;
+    top: 300px;
+    left: 10px;
+    width: 96%;
+}
+
+/* ------------------ */
+
+.Nodebox-1 {
+    width: 30px;
+    height: 220px;
+    position: absolute;
+    border-left: 18px double green;
+    left: 5px;
+    top: 5px;
+}
+
+.Nodebox-2 {
+    width: 220px;
+    height: 30px;
+    position: absolute;
+    border-top: 20px double green;
+    left: 5px;
+    top: 15px;
+}
+
+.Nodebox-2_1 {
+    width: 390px;
+    height: 990px;
+    border-left: 5pc solid rgba(0, 128, 0, 0.169);
+    position: absolute;
+    transform: rotate(-45deg);
+    top: -320px;
+    right: -190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.Nodebox-3 {
+    width: 220px;
+    height: 320px;
+    background-color: rgba(0, 128, 0, 0.525);
+    position: absolute;
+    transform: rotate(-45deg);
+    top: -237px;
+    right: 50px;
+}
+
+.Nodebox-4 {
+    width: 350px;
+    height: 290px;
+    position: absolute;
+    transform: rotate(45deg);
+    border-right: 30px solid #d4ff00;
+    border-bottom: 30px solid #ffea0000;
+    z-index: 2;
+    top: -225px;
+    right: -18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Nodebox-4_1 {
+    width: 240px;
+    height: 340px;
+    background-color: rgb(0, 128, 0);
+    position: absolute;
+    transform: rotate(-45deg);
+    top: -30px;
+    right: -230px;
+}
+
+.Nodebox-4_2 {
+    width: 230px;
+    height: 330px;
+    background-color: rgba(0, 128, 0, 0.169);
+    position: absolute;
+    transform: rotate(-45deg);
+    top: 107.3px;
+    right: -206.5px;
+}
+
+/* //////////////////////// */
+
+
+/* ////////////////////// */
+.Nodebox-4_text {
+    position: absolute;
+    left: 40px;
+    top: 45px;
+    width: 330px;
+    height: 130px;
+    font-size: 15px;
+    word-spacing: 5px;
+    line-height: 22px;
+}
+
+.boxBottomNode-1 {
+    width: 390px;
+    height: 990px;
+    border-left: 5pc solid rgba(0, 128, 0, 0.169);
+    position: absolute;
+    transform: rotate(-45deg);
+    bottom: -180px;
+    left: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxBottomNode-2 {
+    width: 164.3px;
+    height: 164.3px;
+    background: rgba(0, 128, 0, 0.169);
+    position: absolute;
+    transform: rotate(-45deg);
+    bottom: 150.6px;
+    left: -126.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxBottomNode-2_1 {
+    width: 250px;
+    height: 290px;
+    background: rgba(0, 128, 0, 0.468);
+    position: absolute;
+    transform: rotate(-45deg);
+    bottom: -150px;
+    left: -30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.boxBottomNode-4 {
+    width: 150px;
+    height: 150px;
+    background: rgba(66, 128, 0, 0.6);
+    position: absolute;
+    transform: rotate(-45deg);
+    bottom: -80px;
+    left: -20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.boxBottomNode-4_2 {
+    width: 110px;
+    height: 240px;
+    position: absolute;
+    bottom: -5px;
+    left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.boxBottomNode-4_2>div {
+    width: 5px;
+    height: 5px;
+    background-color: #000000;
+    margin: 3px 10px;
+    border-radius: 5px;
+
+}
+
+.boxBottomNode-5 {
+    width: 28px;
+    height: 220px;
+    position: absolute;
+    border-left: 18px double green;
+    right: 5px;
+    bottom: 2px;
+}
+
+.boxBottomNode-6 {
+    width: 220px;
+    height: 30px;
+    position: absolute;
+    border-top: 20px double green;
+    right: 5px;
+    bottom: 2px;
+}

@@ -10,7 +10,7 @@ import './style.css';
 import Snowfall from '../snowFall/Snowfall';
 import { NumberFormat } from '../../hook/NumberFormat.js';
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 const CustomLayout = () => {
     const location = useLocation();
@@ -20,6 +20,7 @@ const CustomLayout = () => {
     const { data: balans, isLoading, error } = useGetBalansQuery();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [activeItem, setActiveItem] = useState(null);
+    const teacherType = localStorage.getItem("teacherType");
 
     useEffect(() => {
         const handleResize = () => {
@@ -123,7 +124,7 @@ const CustomLayout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("admin");
         localStorage.removeItem("doctorMongoId");
-        navigate("/");
+        navigate("/login"); // Change to navigate to login page
     };
 
     const content = (
@@ -143,6 +144,11 @@ const CustomLayout = () => {
         { key: '3', icon: <UserAddOutlined style={isMobile ? { fontSize: '22px' } : {}} />, label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/createCards">{isMobile ? "Yangi Guruh" : "Guruh Ochish"}</Link> },
         { key: '4', icon: <UserOutlined style={isMobile ? { fontSize: '22px' } : {}} />, label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/getTeacher">{isMobile ? "Ustozlar" : "Ustozlar"}</Link> },
         { key: '5', icon: <DollarOutlined style={isMobile ? { fontSize: '22px' } : {}} />, label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/payController">{isMobile ? "To'lov" : "To'lovlar"}</Link> },
+    ];
+
+    const menuTeacher = [
+        { key: '1', icon: <TeamOutlined style={isMobile ? { fontSize: '22px' } : {}} />, label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/groups">{isMobile ? "Guruhlar" : "Guruhlar"}</Link> },
+        { key: '2', icon: <UserOutlined style={isMobile ? { fontSize: '22px' } : {}} />, label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/students">{isMobile ? "Ustozlar" : "Ustozlar"}</Link> },
     ];
 
     const handleClick = (item) => {
@@ -184,7 +190,9 @@ const CustomLayout = () => {
                     <Snowfall />
                     <img width={collapsed ? 45 : 190} src={collapsed ? collapsedLogo : logo} alt="Logo" />
                 </div>
-                <Menu theme="dark" selectedKeys={[selectedKey]} mode="inline" items={menuItems} />
+                <Menu theme="dark" selectedKeys={[selectedKey]} mode="inline"
+                    items={teacherType === 'owner' ? menuItems : menuTeacher}
+                />
             </Sider>
 
             <Layout className="site-layout">
@@ -244,7 +252,10 @@ const CustomLayout = () => {
                 <div
                     ref={menuRef}
                     className='MenuMobile menu-horizontal'>
-                    {renderMobileMenuItems(menuItems)}
+                    {teacherType === 'owner'
+                        ? renderMobileMenuItems(menuItems)
+                        : renderMobileMenuItems(menuTeacher)
+                    }
                 </div>
             )}
         </Layout>
@@ -252,12 +263,6 @@ const CustomLayout = () => {
 };
 
 export default CustomLayout;
-
-
-
-
-
-
 
 
 

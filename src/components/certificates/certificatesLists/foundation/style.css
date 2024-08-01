@@ -1,0 +1,167 @@
+.Container_Foun {
+    min-width: 210mm;
+    width: 210mm;
+    height: 295.5mm;
+    min-height: 295.5mm;
+    margin: 5px auto;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Container_Box {
+    width: 100%;
+    height: 100%;
+    padding-top: 240px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    border: 2px solid #ffc253;
+}
+
+.Container_Box>h1 {
+    font-size: 85px;
+    font-weight: 600;
+}
+
+.Container_Box>p {
+    font-size: 22px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.Container_Box>b {
+    margin-left: -360px;
+    margin-top: 25px;
+}
+
+.Container_Box>h3 {
+    font-size: 35px;
+    font-weight: 600;
+}
+
+.founText {
+    font-size: 35px;
+    margin-top: 70px;
+
+}
+
+.QrFoun {
+    width: 80%;
+    height: 150px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 40px 0 30px 0;
+}
+
+.QRCodeFoun {
+    height: 130px;
+    width: 130px;
+    border: 2px solid rgba(0, 128, 0, 0.525);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ----Top------ */
+.Foun_1 {
+    width: 400px;
+    height: 500px;
+    border-top: 2px solid #ffc253;
+    border-left: 2px solid #ffc253;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.Foun_2 {
+    width: 350px;
+    height: 450px;
+    border-top: 32px solid #214f9a;
+    border-left: 32px solid #214f9a;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+.Foun_3 {
+    width: 450px;
+    height: 300px;
+    border-top: 22px solid #fcca46;
+    border-left: 22px solid #fcca46;
+    position: absolute;
+    top: 60px;
+    left: 60px;
+}
+
+/* -----Bottom---- */
+.Foun_4 {
+    width: 400px;
+    height: 500px;
+    border-bottom: 2px solid #ffc253;
+    border-right: 2px solid #ffc253;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.Foun_5 {
+    width: 350px;
+    height: 450px;
+    border-bottom: 32px solid #214f9a;
+    border-right: 32px solid #214f9a;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+.Foun_6 {
+    width: 450px;
+    height: 300px;
+    border-bottom: 22px solid #fcca46;
+    border-right: 22px solid #fcca46;
+    position: absolute;
+    bottom: 60px;
+    right: 60px;
+}
+
+/* ------------------- */
+.Iconca {
+    width: 20%;
+    position: absolute;
+    top: 50px;
+    right: 70px;
+}
+
+.alg {
+    width: 20%;
+    position: absolute;
+    top: 90px;
+    left: 95px;
+}
+
+.Foun_NameBox {
+    width: 85%;
+    height: 130px;
+    border-bottom: 1.5px solid #516b7d;
+    padding-bottom: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.Foun_NameBox>h1 {
+    font-size: 55px;
+    text-align: center;
+    line-height: 62px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #516b7d;
+}

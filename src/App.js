@@ -4,6 +4,7 @@ import LayoutWrapper from './components/layout/LayoutWrapper';
 import { routes } from './routes/Routes';
 import Login from './components/login/Login';
 import LoadingSpinner from './components/LoadingSpinner';
+import Print from './components/certificates/createCertificat/Certificat';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <>
+      {/* <Print /> */}
       <Routes>
         {isLoggedIn ? (
           <Route element={<LayoutWrapper />}>
@@ -44,3 +46,8 @@ function App() {
 }
 
 export default App;
+
+
+
+
+

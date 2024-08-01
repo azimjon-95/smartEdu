@@ -1,0 +1,281 @@
+.containerRuAD {
+    min-width: 210mm;
+    width: 210mm;
+    height: 295.5mm;
+    min-height: 295.5mm;
+    margin: 5px auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid black; */
+}
+
+.contentRuAD {
+    position: relative;
+    width: 70%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.textRuAD {
+    /* position: absolute;
+    left: 0;
+    top: 0; */
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    z-index: 10;
+}
+
+.textRuAD h1 {
+    font-size: 80px;
+}
+
+.textRuAD h3 {
+    font-size: 40px;
+    font-weight: 100;
+}
+
+.textRuAD span:nth-child(1) {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.bjD {
+    margin-top: 100px;
+}
+
+.nameAD {
+    width: 100%;
+    height: 140px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    border-bottom: 2px solid rgba(0, 0, 0, 0.667);
+}
+
+.nameAD>h2 {
+    font-size: 50px;
+    font-weight: 600;
+    color: #000000ad;
+    font-family: 'Roboto Slab', serif;
+
+}
+
+.nameAD .textRuAD span:nth-child(2) {
+    height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.textRuAD input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid;
+    outline: none;
+    font-size: 40px;
+    text-align: center;
+    background-color: transparent;
+}
+
+.textRuAD p {
+    font-size: 18px;
+}
+
+.contentRuAD img {
+    position: absolute;
+    top: 100px;
+    width: 800px;
+    height: 800px;
+    opacity: 40%;
+}
+
+.face1 {
+    position: relative;
+    position: absolute;
+    width: 45%;
+    height: 65%;
+    top: 0;
+    left: 0;
+}
+
+
+
+.boxAD:nth-child(1) {
+    position: absolute;
+    top: -85px;
+    left: -65px;
+    height: 170px;
+    width: 170px;
+    background-color: #61C8C9;
+    transform: rotate(45deg);
+}
+
+.boxAD:nth-child(2) {
+    position: absolute;
+    top: -85px;
+    left: 170px;
+    height: 170px;
+    width: 170px;
+    background-color: #005C84;
+    transform: rotate(45deg);
+}
+
+.boxAD:nth-child(3) {
+    position: absolute;
+    top: 35px;
+    left: 53px;
+    height: 170px;
+    width: 170px;
+    background-image: linear-gradient(to right bottom, white 50%, #032A2F 50%);
+    transform: rotate(45deg);
+}
+
+.boxAD:nth-child(4) {
+    position: absolute;
+    top: 155px;
+    left: -68px;
+    height: 170px;
+    width: 170px;
+    background-image: linear-gradient(to left bottom, #019D9C 50%, #fff 50%);
+    transform: rotate(-45deg);
+}
+
+.boxAD:nth-child(5) {
+    position: absolute;
+    top: 35px;
+    left: -186px;
+    height: 170px;
+    width: 170px;
+    background-image: linear-gradient(to left bottom, #00A7C2 50%, #fff 50%);
+    transform: rotate(-45deg);
+}
+
+.boxAD:nth-child(6) {
+    position: absolute;
+    top: 256px;
+    left: 15px;
+    height: 85px;
+    width: 85px;
+    background-image: linear-gradient(to right top, #005C84 50%, #fff 50%);
+    transform: rotate(-45deg);
+    z-index: 10;
+}
+
+.boxAD:nth-child(7) {
+    position: absolute;
+    top: 320px;
+    left: -65px;
+    height: 85px;
+    width: 85px;
+    background-image: linear-gradient(to right top, #61C8C9 50%, #000 50%);
+    transform: rotate(-45deg);
+    z-index: 10;
+}
+
+.boxAD:nth-child(8) {
+    position: absolute;
+    bottom: 40px;
+    left: -65px;
+    height: 85px;
+    width: 85px;
+    background-image: linear-gradient(to right top, #fff 50%, #00A7C2 50%);
+    transform: rotate(-45deg);
+    z-index: 10;
+}
+
+.boxAD:nth-child(9) {
+    position: absolute;
+    bottom: 0;
+    left: -20px;
+    height: 85px;
+    width: 85px;
+    background-image: linear-gradient(to right top, #61C8C9 50%, #fff 50%);
+    transform: rotate(-45deg);
+    z-index: 9;
+}
+
+.face2 {
+    position: relative;
+    position: absolute;
+    width: 45%;
+    height: 65%;
+    bottom: -10px;
+    right: 0;
+    transform: rotate(180deg);
+}
+
+
+.ark1 {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 30%;
+    height: 20%;
+    border-right: 20px double #597EB3;
+    border-top: 20px double #597EB3;
+    border-top-right-radius: 20px;
+}
+
+.ark2 {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    width: 30%;
+    height: 20%;
+    border-left: 20px double #597EB3;
+    border-bottom: 20px double #597EB3;
+    border-bottom-left-radius: 20px;
+}
+
+.podpis {
+    gap: 20px;
+    bottom: 100px;
+    left: 100px;
+    position: absolute;
+    display: flex;
+}
+
+.podpis input {
+    width: 80px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid;
+}
+
+.boxADRU {
+    width: 90%;
+    height: 150px;
+    margin-top: 70px;
+
+}
+
+.lineAD {
+    width: 200px;
+    height: 200px;
+}
+
+.IdAD {
+    font-family: 'Roboto Slab', serif;
+    line-height: 35px;
+}

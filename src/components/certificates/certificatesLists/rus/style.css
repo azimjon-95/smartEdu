@@ -1,0 +1,189 @@
+.certificat_ContainerRus {
+    min-width: 210mm;
+    width: 210mm;
+    height: 295.5mm;
+    min-height: 295.5mm;
+    margin: 5px auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid black; */
+}
+
+.texts {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.serRu {
+    color: rgb(49, 82, 165);
+    font-size: 70px;
+    letter-spacing: 9px;
+    text-align: center;
+    font-weight: 600;
+
+}
+
+
+
+.contentru {
+    height: 60px;
+    border-bottom: 2px solid black;
+    width: 100%;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 5px;
+}
+
+.contentru>h1 {
+    font-size: 40px
+}
+
+.titleru {
+    color: rgb(49, 82, 165);
+    text-align: center;
+    font-size: 25px;
+    font-weight: 500;
+    margin-top: 10px;
+    line-height: 37px;
+}
+
+.QRCoderu {
+    height: 130px;
+    width: 130px;
+    border: 2px solid #002aff9d;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+
+}
+
+.ruLOG {
+    width: 100%;
+    position: absolute;
+    left: 0%;
+    top: 21%;
+    opacity: 20%;
+}
+
+.boxru:nth-child(1) {
+    position: absolute;
+    width: 70mm;
+    height: 70mm;
+    background-color: rgb(121, 152, 238);
+    transform: rotate(45deg);
+    top: 250px;
+    left: -180px;
+    z-index: 2;
+}
+
+.boxru:nth-child(2) {
+    background-color: rgba(49, 82, 165, 0.644);
+    position: absolute;
+    width: 50mm;
+    height: 50mm;
+    transform: rotate(45deg);
+    top: 150px;
+    left: -122px;
+    z-index: 3;
+}
+
+.boxru:nth-child(3) {
+    position: absolute;
+    width: 90mm;
+    height: 190mm;
+    background-color: rgb(154, 176, 236);
+    transform: rotate(45deg);
+    top: -250px;
+    left: -280px;
+    z-index: 1;
+}
+
+.boxru:nth-child(8) {
+    position: absolute;
+    width: 50mm;
+    height: 50mm;
+    background-color: rgb(221, 244, 253);
+    transform: rotate(45deg);
+    top: 143px;
+    left: 30px;
+    z-index: -1;
+}
+
+.boxru:nth-child(4) {
+    position: absolute;
+    width: 150mm;
+    height: 70mm;
+    background-color: rgb(121, 152, 238);
+    transform: rotate(79deg);
+    right: -320px;
+    bottom: 10px;
+    z-index: 2;
+}
+
+.boxru:nth-child(5) {
+    background-color: rgba(49, 82, 165, 0.644);
+    position: absolute;
+    width: 60mm;
+    height: 60mm;
+    transform: rotate(79deg);
+    right: -100px;
+    bottom: -50px;
+    z-index: 3;
+}
+
+.boxru:nth-child(6) {
+    position: absolute;
+    width: 80mm;
+    height: 80mm;
+    background-color: rgb(154, 176, 236);
+    transform: rotate(76deg);
+    right: -30px;
+    bottom: -200px;
+    z-index: 1;
+}
+
+.boxru:nth-child(7) {
+    position: absolute;
+    width: 80mm;
+    height: 80mm;
+    background-color: rgb(214, 235, 245);
+    transform: rotate(76deg);
+    right: -70px;
+    bottom: -50px;
+    z-index: 0;
+}
+
+.boxru1 {
+    position: absolute;
+    width: 70mm;
+    height: 70mm;
+    border-left: 13px double rgba(49, 82, 165, 0.749);
+    border-bottom: 13px double rgba(49, 82, 165, 0.749);
+    left: 20px;
+    bottom: 20px;
+    z-index: 1;
+    border-radius: 0 0 0 20px;
+}
+
+.boxru2 {
+    position: absolute;
+    width: 70mm;
+    height: 70mm;
+    border-top: 13px double rgba(49, 82, 165, 0.749);
+    border-right: 13px double rgba(49, 82, 165, 0.749);
+    right: 20px;
+    top: 20px;
+    z-index: 1;
+    border-radius: 0 20px 0 0;
+}

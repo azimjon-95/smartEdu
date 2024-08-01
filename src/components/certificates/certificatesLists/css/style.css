@@ -1,0 +1,477 @@
+.certificat_Container {
+    min-width: 210mm;
+    width: 210mm;
+    height: 295.5mm;
+    min-height: 295.5mm;
+    margin: 5px auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid black; */
+}
+
+
+/* -------MAIN------- */
+.certificat_Box {
+    width: 100%;
+    /* height: 990px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    margin-top: 130px;
+}
+
+.Title_cert {
+    font-size: 110px;
+    font-weight: 400;
+    letter-spacing: 10px;
+    color: #8c00ff;
+}
+
+.Nocss {
+    color: #000000;
+    font-size: 22px;
+    letter-spacing: 4px;
+    margin-top: 20px;
+}
+
+.lastText {
+    color: #8c00ff;
+    font-size: 27px;
+    font-weight: 400;
+    letter-spacing: 8px;
+    margin-top: 5px;
+}
+
+.NameCss {
+    color: #8c00ff;
+    font-size: 70px;
+    font-weight: 500;
+    letter-spacing: 6px;
+    text-align: center;
+
+}
+
+.textcss {
+    color: #8c00ff;
+    font-size: 27px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 6px;
+    margin-top: 20px;
+}
+
+.signatureBoxcss {
+    width: 130px;
+    height: 80px;
+    border-top: 1px solid black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
+
+.stamp {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    border: 10px double transparent;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: transparent;
+}
+
+.cssFooter {
+    width: 65%;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.QRCode {
+    height: 130px;
+    width: 130px;
+    border: 2px solid rgba(0, 128, 0, 0.525);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ------------------ */
+
+.box-1 {
+    width: 670px;
+    height: 230px;
+    background-color: #ffea00;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: -300px;
+    top: -120px;
+    z-index: 2;
+}
+
+.box-2 {
+    width: 160px;
+    height: 160px;
+    background-color: #ffea00;
+    position: absolute;
+    transform: rotate(-45deg);
+    top: 150px;
+    left: -97px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-2_1 {
+    width: 130px;
+    height: 130px;
+    background-color: #ffea00;
+    border: 2px solid rgb(0, 0, 0);
+
+}
+
+.box-3 {
+    width: 80px;
+    height: 80px;
+    background-color: #ffea00;
+    position: absolute;
+    transform: rotate(-45deg);
+    top: 60px;
+    left: 75px;
+}
+
+.box-4 {
+    width: 230px;
+    height: 270px;
+    background-color: #000000;
+    position: absolute;
+    transform: rotate(-45deg);
+    top: -160px;
+    left: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.box-4_1 {
+    width: 150px;
+    height: 190px;
+    background-color: #000000;
+    border: 2px solid #fff;
+
+}
+
+/* //////////////////////// */
+
+.boxBottom-1 {
+    width: 700px;
+    height: 250px;
+    background-color: #ffea00;
+    position: absolute;
+    transform: rotate(-45deg);
+    right: -390px;
+    bottom: -100px;
+}
+
+.boxBottom-2 {
+    width: 200px;
+    height: 70px;
+    background-color: #000000;
+    position: absolute;
+    transform: rotate(-45deg);
+    bottom: 240px;
+    right: -87px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.boxBottom-2_1 {
+    width: 20px;
+    height: 150px;
+    background-color: #ffea00;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: 152px;
+    right: -10px;
+}
+
+.boxBottom-3 {
+    width: 60px;
+    height: 150px;
+    background-color: #ecd803;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: 81px;
+    right: -10px;
+}
+
+
+.boxBottom-4 {
+    width: 80px;
+    height: 165px;
+    border: 2px solid black;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: 65px;
+    right: -10px;
+}
+
+.boxBottom-4_1 {
+    width: 80px;
+    height: 165px;
+    background-color: #ffea00;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: -90px;
+    right: 170px;
+}
+
+.boxBottom-4_2 {
+    width: 80px;
+    height: 165px;
+    background-color: #ffea00;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: -100px;
+    right: 220px;
+}
+
+
+/* ////////////////////// */
+
+.boxleft-1_box {
+    transform: rotate(-90deg);
+    position: absolute;
+    bottom: 190px;
+    left: -222px;
+    width: 520px;
+    height: 180px;
+}
+
+.boxleft-1 {
+    position: relative;
+    width: 20%;
+    padding-bottom: 20%;
+    transform-style: preserve-3d;
+    background-color: #786e02ad;
+    transform: rotateX(60deg) rotatez(45deg);
+}
+
+.boxleft-1:before,
+.boxleft-1:after {
+    content: '';
+    position: absolute;
+    background-color: #ecd803;
+    width: 100%;
+    height: 100%;
+    transform-origin: -2% -2%;
+    background: inherit;
+}
+
+.boxleft-1:before {
+    top: 104%;
+    left: 0;
+    transform: rotateX(-90deg);
+    background-color: #ecd80398;
+
+}
+
+.boxleft-1:after {
+    top: 0;
+    left: 104%;
+    transform: rotateY(90deg);
+    background-color: #ecd80398;
+}
+
+/* ////////////////////// */
+
+.boxleft-1_box2 {
+    transform: rotate(-90deg);
+    position: absolute;
+    bottom: 340px;
+    left: -222px;
+    width: 520px;
+    height: 180px;
+}
+
+.boxleft-1_2 {
+    position: relative;
+    width: 20%;
+    padding-bottom: 20%;
+    /* margin: 0 auto; */
+    transform-style: preserve-3d;
+    background-color: #786e02ad;
+
+    transform: rotateX(60deg) rotatez(45deg);
+}
+
+.boxleft-1_2:before,
+.boxleft-1_2:after {
+    content: '';
+    position: absolute;
+    background-color: #8c00ff;
+    width: 100%;
+    height: 100%;
+    transform-origin: -2% -2%;
+    background: inherit;
+}
+
+.boxleft-1_2:before {
+    top: 104%;
+    left: 0;
+    transform: rotateX(-90deg);
+    background-color: #8c00ff91;
+}
+
+.boxleft-1_2:after {
+    top: 0;
+    left: 104%;
+    transform: rotateY(90deg);
+    background-color: #8c00ff91;
+}
+
+/* /////////////////////////// */
+
+.boxRight-1_box {
+    background-color: #8c00ff91;
+    width: 360px;
+    height: 390px;
+    position: absolute;
+    transform: rotate(-40deg);
+    top: -70px;
+    right: -268px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.boxRight-1 {
+    width: 235px;
+    height: 225px;
+    border: 5px solid white;
+    position: absolute;
+    transform: rotate(-90deg);
+    top: 50px;
+    right: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}
+
+.boxRight-1_box3 {
+    transform: rotate(-103deg);
+    position: absolute;
+    top: -188px;
+    right: -138px;
+    width: 580px;
+    height: 240px;
+}
+
+.boxRight-1_box2 {
+    position: relative;
+    width: 20%;
+    padding-bottom: 20%;
+    /* margin: 0 auto; */
+    transform-style: preserve-3d;
+    background-color: #ecd80398;
+
+
+    transform: rotateX(60deg) rotatez(45deg);
+}
+
+.boxRight-1_box2:before,
+.boxRight-1_box2:after {
+    content: '';
+    position: absolute;
+    background-color: #ecd80398;
+
+    width: 100%;
+    height: 100%;
+    transform-origin: -2% -2%;
+    background: inherit;
+}
+
+.boxRight-1_box2:before {
+    top: 104%;
+    left: 0;
+    transform: rotateX(-90deg);
+    background-color: #fdf59dec;
+
+}
+
+.boxRight-1_box2:after {
+    top: 0;
+    left: 104%;
+    transform: rotateY(90deg);
+    background-color: #ecd80398;
+
+}
+
+.Logo {
+    opacity: 25%;
+    position: absolute;
+    top: 320px;
+    left: 60px;
+    width: 86%;
+}
+
+
+
+
+/* -------------- */
+
+.Loadin {
+    display: flex;
+    justify-content: center;
+}
+
+.Load {
+    color: #666c;
+}
+
+.Load_1 {
+    color: #666c;
+    line-height: 18px;
+    margin: 0 1px;
+    animation: opo 0.71s infinite linear;
+}
+
+.Load_2 {
+    color: #666c;
+    margin: 0 1px;
+    line-height: 18px;
+    animation: opo 0.72s infinite linear;
+}
+
+.Load_3 {
+    color: #666c;
+    line-height: 18px;
+    animation: opo 0.73s infinite linear;
+}
+
+@keyframes opo {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

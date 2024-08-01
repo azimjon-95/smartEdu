@@ -41,9 +41,11 @@ function Login({ setIsLoggedIn }) {
         try {
             const res = await axios.post("/api/teacher/signin", data);
             if (res.data.token) {
-                const { token, teacher } = res.data;
+                const { token, teacherType, _id } = res.data.teacher;
+                console.log(res.data.teacher);
                 localStorage.setItem("token", token); // Tokenni saqlash
-                localStorage.setItem("teacherId", teacher._id);
+                localStorage.setItem("teacherType", teacherType);
+                localStorage.setItem("teacherId", _id);
                 setIsLoggedIn(true);
                 message.success("Tizimga kirish muvaffaqiyatli yakunlandi!");
                 navigate("/reports");

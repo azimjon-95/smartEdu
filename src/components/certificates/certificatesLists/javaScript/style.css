@@ -1,0 +1,294 @@
+.Js_Container {
+    min-width: 210mm;
+    width: 210mm;
+    height: 295.5mm;
+    min-height: 295.5mm;
+    margin: 5px auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid black; */
+}
+
+
+/* -------MAIN------- */
+.certificat_BoxJs {
+    width: 100%;
+    /* height: 1000px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    margin-top: 100px;
+}
+
+.Title_Js {
+    font-size: 90px;
+    font-weight: 600;
+    letter-spacing: 10px;
+    color: #11216e;
+    line-height: 90px;
+}
+
+
+
+.NoIdjs {
+    color: #000000;
+    font-size: 25px;
+    letter-spacing: 4px;
+
+}
+
+.Nogiven {
+    color: #000000;
+    font-size: 25px;
+    letter-spacing: 2px;
+    margin-top: 50px;
+}
+
+
+
+
+.NameJs {
+    color: #11216e;
+    font-size: 65px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    line-height: 70px;
+
+    text-align: center;
+
+}
+
+.textjs {
+    color: #000000;
+    font-size: 26px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 5px;
+    line-height: 35px;
+    /* margin-top: 15px; */
+}
+
+
+.signatureBoxJs {
+    width: 160px;
+    height: 90px;
+    border-top: 1px solid black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 5px;
+    font-size: 17px;
+}
+
+.signatureBox:nth-child(2) {
+    height: 50px;
+
+}
+
+
+
+.stampjs {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    border: 10px double transparent;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: transparent;
+}
+
+.JsFooter {
+    width: 70%;
+    margin-top: 30px;
+    height: 170px;
+    display: flex;
+    margin-left: 50px;
+    align-items: center;
+    /* background-color: #ecd803; */
+    justify-content: space-between;
+}
+
+.signatjs {
+    margin-top: 15px;
+}
+
+.QRCodejs {
+    height: 130px;
+    width: 130px;
+    border: 2px solid #d6c401;
+    display: flex;
+    padding: 6px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.LogoNode {
+    opacity: 20%;
+    position: absolute;
+    top: 300px;
+    left: 10px;
+    width: 96%;
+}
+
+/* ------------------ */
+
+.Jsbox-1 {
+    width: 430px;
+    height: 430px;
+    position: absolute;
+    border: 30px solid #ecd803;
+    transform: rotate(45deg);
+    left: -105px;
+    top: -270px;
+}
+
+
+.Jsbox-2 {
+    width: 390px;
+    height: 390px;
+    background: #d6c401;
+    position: absolute;
+    transform: rotate(45deg);
+    top: -330px;
+    left: -18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.Jsbox-3 {
+    width: 70px;
+    height: 320px;
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    transform: rotate(-45deg);
+    top: -120px;
+    left: 15px;
+}
+
+.Jsbox-4 {
+    width: 450px;
+    height: 290px;
+    position: absolute;
+    transform: rotate(45deg);
+    border: 90px double #ecd803;
+    z-index: 2;
+    top: -90px;
+    right: -268px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.boxTopJs-5 {
+    width: 110px;
+    height: 240px;
+    position: absolute;
+    top: 180px;
+    right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.boxTopJs-5>div {
+    width: 5px;
+    height: 5px;
+    background-color: #000000;
+    margin: 3px 10px;
+    border-radius: 5px;
+
+}
+
+
+/* ////////////////////// */
+
+.JsboxBottom-1 {
+    width: 430px;
+    height: 430px;
+    position: absolute;
+    border: 30px solid #ecd803;
+    transform: rotate(45deg);
+    right: -145px;
+    bottom: -290px;
+}
+
+
+.JsboxBottom-2 {
+    width: 390px;
+    height: 390px;
+    background: #d6c401;
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -361px;
+    right: -47px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.JsboxBottom-3 {
+    width: 70px;
+    height: 320px;
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    transform: rotate(-45deg);
+    bottom: -140px;
+    right: -25px;
+}
+
+.JsboxBottom-4 {
+    width: 470px;
+    height: 620px;
+    border: 22px double#d6c401;
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -480px;
+    left: -125px;
+}
+
+.JsboxBottom-5 {
+    width: 470px;
+    height: 620px;
+    border: 7px solid #d6c401;
+    position: absolute;
+    transform: rotate(10deg);
+    bottom: -480px;
+    left: -115px;
+}
+
+.boxBottomJs-5 {
+    width: 110px;
+    height: 240px;
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.boxBottomJs-5>div {
+    width: 5px;
+    height: 5px;
+    background-color: #000000;
+    margin: 3px 10px;
+    border-radius: 5px;
+
+}
