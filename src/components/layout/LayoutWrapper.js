@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Avatar, Space, Layout, Menu, Button, Popover } from 'antd';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { GiTakeMyMoney } from "react-icons/gi";
-import { DollarOutlined, MenuFoldOutlined, LogoutOutlined, MenuUnfoldOutlined, TeamOutlined, FileTextOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
+import { FileDoneOutlined, CreditCardOutlined, DollarOutlined, MenuFoldOutlined, LogoutOutlined, MenuUnfoldOutlined, TeamOutlined, FileTextOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { useGetBalansQuery } from '../../context/balansApi.js';
 import logo from '../../assets/logo.png';
 import collapsedLogo from '../../assets/collapsedLogo.jpg';
@@ -144,6 +144,20 @@ const CustomLayout = () => {
         { key: '3', icon: <UserAddOutlined style={isMobile ? { fontSize: '22px' } : {}} />, label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/createCards">{isMobile ? "Yangi Guruh" : "Guruh Ochish"}</Link> },
         { key: '4', icon: <UserOutlined style={isMobile ? { fontSize: '22px' } : {}} />, label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/getTeacher">{isMobile ? "Ustozlar" : "Ustozlar"}</Link> },
         { key: '5', icon: <DollarOutlined style={isMobile ? { fontSize: '22px' } : {}} />, label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/payController">{isMobile ? "To'lov" : "To'lovlar"}</Link> },
+        {
+            key: '6',
+            icon: <FileDoneOutlined style={isMobile ? { fontSize: '22px' } : {}} />,
+            label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/payController">
+                {isMobile ? "Sertifikat" : "Sertifikat bo'limi"}
+            </Link>
+        },
+        {
+            key: '7',
+            icon: <CreditCardOutlined style={isMobile ? { fontSize: '22px' } : {}} />,
+            label: <Link style={{ textDecoration: "none", color: "#b8b8b8" }} to="/expenses">
+                {isMobile ? "Xarajat" : "Xarajatlar"}
+            </Link>
+        }
     ];
 
     const menuTeacher = [
