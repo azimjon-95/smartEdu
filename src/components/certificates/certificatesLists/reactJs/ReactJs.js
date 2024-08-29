@@ -1,31 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import './style.css'
-import Logo from '../../../assets/mainLogo.png';
+import Logo from '../../../../assets/mainLogo.png';
 import Logoreact from './logo512.png'
 import Logoreact1 from './logo512.png'
 import Logoreact2 from './logo512.png'
 import QRCode from "react-qr-code";
-import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
-import axios from "../../../api/api";
+
 
 const ReactJsCertificat = React.forwardRef((props, ref) => {
-
-  const [reactId, setreactID] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(`/certificate/checkaddindex/react`);
-        setreactID(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
 
   const {
     name,
@@ -37,7 +19,8 @@ const ReactJsCertificat = React.forwardRef((props, ref) => {
     givenDate,
     URL,
     director,
-    EduName
+    EduName,
+    uniqueId
   } = props.obj;
 
   return (
@@ -65,7 +48,7 @@ const ReactJsCertificat = React.forwardRef((props, ref) => {
 
         <div className="certificat_BoxReact">
           <h1 className="Title_React">Certificate <br /> of completion</h1>
-          <h3 className="ReId">ID:   {loading ? <span>Data is coming ...</span> : (id ? id : reactId)}</h3>
+          <h3 className="ReId">ID: {uniqueId}</h3>
           <h3 className="Regiven">is given to</h3>
           <h1 className="NameRe">{surname} <br /> {name}</h1>
           <p className="textRe">for successfully completing the "Web programming" <br /> course
@@ -87,7 +70,7 @@ const ReactJsCertificat = React.forwardRef((props, ref) => {
 
             <div className="QRCode">
               <QRCode
-                value={`${URL}/check/${id ? id : reactId}`}
+                value={`${URL}/check/${uniqueId}`}
               />
             </div>
             <div className="stamp">

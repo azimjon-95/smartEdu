@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import './style.css'
-import logo from '../../../assets/mainLogo.png';
+import logo from '../../../../assets/mainLogo.png';
 import QRCode from "react-qr-code";
-import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
 
 
 
 const AdultCertificat = React.forwardRef((props, ref) => {
-
-  const [zoom, setZoom] = useState(0.5);
 
   const {
     name,
@@ -19,13 +16,13 @@ const AdultCertificat = React.forwardRef((props, ref) => {
     givenDate,
     director,
     URL,
-    uniqueId
+    uniqueId,
+    catigory
   } = props.obj;
 
   return (
     <div
       className={pdf_class}
-      style={pdf_class && { transform: `scale(${zoom}) translate(-50%)` }}
       ref={ref}
     >
       <div className="certificat_ContainerEng">
@@ -38,7 +35,7 @@ const AdultCertificat = React.forwardRef((props, ref) => {
             <h3>{name} {surname}</h3>
           </div>
 
-          <p className="p3">For active attendance in the lessons and achieving high resultin {catigory}-month</p>
+          <p className="p3">For active attendance in the lessons and achieving high resultin {catigory || ""}-month</p>
 
 
           <div className="boxEngQr">

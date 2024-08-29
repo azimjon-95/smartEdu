@@ -1,103 +1,119 @@
 import React, { useState } from 'react';
-import { Table, Button, Space, Input, message, notification } from 'antd';
-import { useGetStudentQuery, useDeleteStudentMutation, useUpdateStudentsStateMutation } from '../../../context/studentsApi';
-import { useGetAllRegistrationsQuery, useUpdateRegistrationMutation } from '../../../context/groupsApi';
-import './style.css';
+import { Col, Button, notification, Input, message, Modal, Row } from 'antd';
+import { useGetStudentQuery, useDeleteStudentMutation, useUpdateStudentMutation } from '../../../context/studentsApi';
+import './style.css';  // Ensure this file contains the necessary styles
 import '../../../components/table-Css/css/main.min.css';
 import '../../../components/table-Css/css/bulma.min.css';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { IoArrowBackOutline } from "react-icons/io5";
-import moment from 'moment';
+import { useUpdateRegistrationMutation, useGetAllRegistrationsQuery } from '../../../context/groupsApi'
 import { PhoneNumberFormat } from '../../../hook/NumberFormat';
+import moment from 'moment';
 
 const { Search } = Input;
 
 const StudentList = () => {
     const { data } = useGetStudentQuery();
     const [deleteStudent] = useDeleteStudentMutation();
+    const { data: getGroups } = useGetAllRegistrationsQuery();
     const [updateRegistration] = useUpdateRegistrationMutation();
-    const { data: registrations } = useGetAllRegistrationsQuery();
-    const [updateStudentsState] = useUpdateStudentsStateMutation();
+    const [updateStudentsState] = useUpdateStudentMutation();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [currentStudent, setCurrentStudent] = useState(null);
+
 
     const navigate = useNavigate();
     const { id } = useParams();
-    const result = registrations?.filter((i) => i._id === id)[0];
 
-    // data ni studentlarga o'tkazamiz
-    const student = data?.filter((i) => i.groupId === id)
+    const student = data?.filter((i) => i.groupId === id);
 
-    // O'quvchini o'chirish
     const handleDelete = async (record) => {
-        console.log(record._id);
+        const studentData = getGroups?.find((i) => i._id === record.groupId);
+        Modal.confirm({
+            title: 'Tasdiqlash',
+            content: 'Siz haqiqatan ham ushbu talabani o\'chirmoqchimisiz?',
+            okText: 'Ok',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: async () => {
+                try {
+                    // Talabani o'chirish
+                    await deleteStudent(record._id);
+
+                    // Guruhdagi talabalar sonini yangilash
+                    const updatedGroupData = {
+                        ...studentData,
+                        studentsLength: studentData?.studentsLength - 1,
+                    };
+
+                    let res = await updateRegistration({ id: studentData?._id, body: updatedGroupData });
+                    message.success('Talaba muvaffaqiyatli o\'chirildi');
+                } catch (error) {
+                    message.error('Talabani o\'chirishda xatolik yuz berdi');
+                    console.error(error);
+                }
+            },
+        });
+    };
+
+    const handleUpdate = (record) => {
+        setCurrentStudent(record);
+        setIsModalVisible(true);
+    };
+
+    const handleModalOk = async () => {
         try {
-            await deleteStudent(record?._id);
-            message.success(`Talaba muvaffaqiyatli o'chirildi`);
+            await updateStudentsState({ id: currentStudent._id, body: currentStudent });
+            message.success('Talaba muvaffaqiyatli yangilandi');
+            setIsModalVisible(false);
         } catch (error) {
-            message.warning('Talabani o\'chirishda xatolik yuz berdi');
+            message.error('Talabani yangilashda xatolik yuz berdi');
             console.error(error);
         }
     };
 
-    // O'quvchini yangilash
-    const handleUpdate = (record) => {
-        console.log('Yangilash tugmasi bosildi:', record);
+    const handleModalCancel = () => {
+        setIsModalVisible(false);
     };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setCurrentStudent({ ...currentStudent, [name]: value });
+    };
+
 
     const handleClearClick = () => {
         navigate(-1);
     };
 
-    const [searchTerm, setSearchTerm] = useState('');
 
     const onSearch = (value) => {
-        setSearchTerm(value);
         console.log('Izlash natijasi:', value);
     };
 
-
     const onFinish = async () => {
         try {
-            const groupData = {
-                ...result,
-                state: 'active',
-            };
-
-            // Guruhni yangilash
-            const registrationResponse = await updateRegistration({ id: result?._id, body: groupData });
-            console.log(registrationResponse);
-
-            const studentData = {
-                state: 'active',
-            };
-            await updateStudentsState({ groupId: result?._id, body: studentData })
-                .then((res) => { console.log(res) })
-                .catch((err) => { console.log(err) });
-
+            await updateRegistration({ id: currentStudent._id, body: { ...currentStudent, state: 'active' } });
+            await updateStudentsState({ groupId: currentStudent._id, body: { state: 'active' } });
             notification.success({
                 message: 'Muvaffaqiyatli',
-                description: 'Guruh muvaffaqiyatli ravishda aktivlashdi.',
+                description: 'Guruh muvaffaqiyatli ravishda aktivlashtirildi.',
             });
-
-            // Qo'shimcha amallar
             navigate("/activeGroups");
             handleClearClick();
         } catch (error) {
-            console.error(error);
             notification.error({
                 message: 'Xatolik',
                 description: 'Guruhni aktivlashtirishda xatolik yuz berdi.',
             });
+            console.error(error);
         }
     };
-
-
-
 
     return (
         <div className="reachStudents_box">
             <div className="reachStudents">
                 <Button onClick={handleClearClick} type="primary"><IoArrowBackOutline /></Button>
-
                 <Search
                     placeholder="Qidirish..."
                     onSearch={onSearch}
@@ -105,7 +121,6 @@ const StudentList = () => {
                     enterButton={false}
                 />
                 <Button onClick={onFinish} type="primary">Darsni boshlash</Button>
-
                 <Link to={`/register/${id}`}>
                     <Button type="primary">Qabul</Button>
                 </Link>
@@ -122,33 +137,25 @@ const StudentList = () => {
                                         <th>Ism Familya</th>
                                         <th>Yoshi</th>
                                         <th>Tel</th>
-                                        <th>Ote ona telefon raqami</th>
+                                        <th>Ota-ona telefon raqami</th>
                                         <th>Harakatlar</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {student?.map((item, index) => (
                                         <tr key={index}>
-
                                             <td data-label="ID">{index + 1}</td>
                                             <td data-label="Ism Familya">{item.firstName} {item.lastName}</td>
                                             <td data-label="Yoshi">{moment().diff(item.dateOfBirth, 'years')}</td>
-                                            <td data-label="Tel" className="is-progress-cell">{PhoneNumberFormat(item.studentPhoneNumber)} </td>
-                                            <td data-label="Ote ona telefon raqami" className="is-progress-cell">{PhoneNumberFormat(item.parentPhoneNumber)} </td>
-                                            <td className="is-actions-cell">
-                                                <div className="buttons is-right">
-                                                    <button onClick={() => handleUpdate(item)} className="button is-small is-primary" type="button">
-                                                        <span className="icon">
-                                                            <i className="mdi mdi-pencil"></i>
-                                                        </span>
-                                                    </button>
-                                                    <button onClick={() => handleDelete(item)} className="button is-small is-danger jb-modal" data-target="sample-modal" type="button">
-                                                        <span className="icon">
-                                                            <i className="mdi mdi-trash-can"></i>
-                                                        </span>
-                                                    </button>
-                                                </div>
+                                            <td data-label="Tel">{PhoneNumberFormat(item.studentPhoneNumber)}</td>
+                                            <td data-label="Ota-ona telefon raqami">{PhoneNumberFormat(item.parentPhoneNumber)}</td>
+                                            <td data-label="Harakatlar">
+                                                <Button onClick={() => handleUpdate(item)} type="primary" size="small">
+                                                    Yangilash
+                                                </Button>
+                                                <Button onClick={() => handleDelete(item)} type="danger" size="small">
+                                                    O'chirish
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}
@@ -158,6 +165,116 @@ const StudentList = () => {
                     </div>
                 </div>
             </section>
+
+            <Modal
+                title="Talaba ma'lumotlarini yangilash"
+                open={isModalVisible}
+                onOk={handleModalOk}
+                onCancel={handleModalCancel}
+            >
+                {currentStudent && (
+                    <div>
+                        <Row gutter={[16, 16]}>
+                            <Col span={8}>
+                                <Input
+                                    name="firstName"
+                                    placeholder="Ism"
+                                    value={currentStudent.firstName}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="lastName"
+                                    placeholder="Familiya"
+                                    value={currentStudent.lastName}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="dateOfBirth"
+                                    placeholder="YYYY-MM-DD"
+                                    value={currentStudent.dateOfBirth}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col span={8}>
+                                <Input
+                                    name="studentPhoneNumber"
+                                    placeholder="Talaba telefon raqami"
+                                    value={currentStudent.studentPhoneNumber}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="parentPhoneNumber"
+                                    placeholder="Ota-ona telefon raqami"
+                                    value={currentStudent.parentPhoneNumber}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="address"
+                                    placeholder="Manzil"
+                                    value={currentStudent.address}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col span={8}>
+                                <Input
+                                    name="gender"
+                                    placeholder="Jinsi"
+                                    value={currentStudent.gender}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="lessonTime"
+                                    placeholder="Dars vaqti"
+                                    value={currentStudent.lessonTime}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="middleName"
+                                    placeholder="Otasining ismi"
+                                    value={currentStudent.middleName}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col span={8}>
+                                <Input
+                                    name="teacherFullName"
+                                    placeholder="O'qituvchi"
+                                    value={currentStudent.teacherFullName}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                        </Row>
+                    </div>
+                )}
+            </Modal>
         </div>
     );
 };

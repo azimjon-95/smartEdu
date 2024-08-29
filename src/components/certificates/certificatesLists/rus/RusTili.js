@@ -1,6 +1,6 @@
 import React from "react";
 import './style.css'
-import logo from '../../../assets/mainLogo.png';
+import logo from '../../../../assets/mainLogo.png';
 import QRCode from "react-qr-code";
 
 const RusTiliCertificat = React.forwardRef((props, ref) => {
@@ -15,6 +15,7 @@ const RusTiliCertificat = React.forwardRef((props, ref) => {
     catigory,
     director,
     givenDate,
+    uniqueId, EduName,
     URL
   } = props.obj;
   return (

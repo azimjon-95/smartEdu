@@ -23,7 +23,9 @@
     height: 43px;
     border-radius: 10px;
     padding: 0 10px;
+    line-height: 18px;
 }
+
 
 .total-card {
     display: flex;

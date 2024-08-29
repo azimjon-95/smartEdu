@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import './style.css'
-import Logo from '../../../assets/mainLogo.png'
+import Logo from '../../../../assets/mainLogo.png'
 import QRCode from "react-qr-code";
-import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
 
 const JavaScriptCertificat = React.forwardRef((props, ref) => {
 

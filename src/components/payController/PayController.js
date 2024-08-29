@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import { Input, Table, Button, Select } from "antd";
-import {
-  useGetStudentQuery,
-  useUpdateStudentMutation,
-} from "../../context/studentsApi";
+import { Modal, Input, Table, Button, Select } from "antd";
+import { useGetStudentQuery, useUpdateStudentMutation } from "../../context/studentsApi";
 import { useCreatePaymentMutation } from "../../context/payStudentsApi";
-import {
-  SearchOutlined,
-  DollarOutlined,
-  UsergroupDeleteOutlined,
-} from "@ant-design/icons";
+import { useSendMessagesMutation } from '../../context/bot';
+import { SearchOutlined, DollarOutlined, UsergroupDeleteOutlined, MessageOutlined } from "@ant-design/icons";
 import "./style.css";
 import "../table-Css/css/bulma.min.css";
 import "../table-Css/css/main.min.css";
@@ -22,25 +16,23 @@ const PayController = () => {
   const { data } = useGetStudentQuery();
   const [updateStudent] = useUpdateStudentMutation();
   const [createPayment] = useCreatePaymentMutation();
+  const [sendMessages] = useSendMessagesMutation();
   const [searchTerm, setSearchTerm] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [selectedTeacher, setSelectedTeacher] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [message_1, setMessage_1] = useState("Assalomu alaykum, hurmatli mijoz! Yangi oy o'quv kurslari uchun toʻlovlaringizni o'z vaqtida amalga oshirishingizni so'raymiz.");
+  const [message_2, setMessage_2] = useState("Hurmatli mijoz! Siz o'quv kurslari uchun to'lovlarni o'z vaqtida amalga oshirmadingiz, siz uchun darslar vaqtincha to'xtatildi! Darslaringizni davom ettirish uchun to'lovlaringizni amalga oshiring.");
 
-  console.log(data);
   const mainData = data?.filter((s) => s.state === "active");
-  // Unikal o'qituvchilar nomlarini yig'ish
-  const teacherNames = Array.from(
-    new Set(mainData?.flatMap((student) => student.teacherFullName))
-  );
+  const teacherNames = Array.from(new Set(mainData?.flatMap((student) => student.teacherFullName)));
 
-  // O'qituvchi tanlanganda ma'lumotlarni olish
   const handleTeacherChange = (value) => {
     setSelectedTeacher(value);
   };
 
-  // Tanlangan o'qituvchiga qarab o'quvchilarni filtrlash
   const filteredStudents = mainData?.filter((student) => {
     const matchesTeacher = selectedTeacher
       ? student.teacherFullName.includes(selectedTeacher)
@@ -57,21 +49,18 @@ const PayController = () => {
     (acc, student) => acc + student.indebtedness.debtorPay,
     0
   );
+
   const handlePayment = async (studentId) => {
     try {
       const student = mainData?.find((student) => student._id === studentId);
       if (student) {
-        // Prepare payment data
         const AllData = {
           fullName: `${student.firstName} ${student.lastName}`,
           studentId: student._id,
           studentFees: paymentAmount,
           subject: student.subject,
         };
-        await createPayment(AllData)
-          .then((res) => console.log(res))
-          .catch((res) => console.log(res));
-
+        await createPayment(AllData).unwrap();
         const Data = {
           ...student,
           indebtedness: {
@@ -79,16 +68,9 @@ const PayController = () => {
             debtorPay: student.indebtedness.debtorPay - paymentAmount,
           },
         };
-
-        await updateStudent({ id: student?._id, body: Data })
-          .then((res) => console.log(res))
-          .catch((res) => console.log(res));
-
-        // To'lov miqdorini tozalash
+        await updateStudent({ id: student?._id, body: Data }).unwrap();
         setPaymentAmount(0);
-        // Tanlangan o'quvchini tozalash
         setSelectedStudent(null);
-        // Input qiymatini tozalash
         setInputValue("");
       }
     } catch (error) {
@@ -100,6 +82,31 @@ const PayController = () => {
     setInputValue(e.target.value);
     setPaymentAmount(Number(e.target.value));
     setSelectedStudent(record._id);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = async () => {
+    try {
+      let res = await sendMessages({
+        students: filteredStudents?.map((student) => ({
+          studentPhoneNumber: student.studentPhoneNumber,
+          parentPhoneNumber: student.parentPhoneNumber,
+        })),
+        message: message_1,
+      }).unwrap();
+
+      console.log(res);
+    } catch (error) {
+      console.error('Error sending messages:', error);
+    } finally {
+      setIsModalVisible(false);
+    }
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -139,6 +146,24 @@ const PayController = () => {
           <UsergroupDeleteOutlined style={{ marginRight: 5 }} />
           Jami qarzdorlar: {filteredStudents?.length}
         </p>
+        <p className="total-text" onClick={showModal} style={{ cursor: 'pointer', background: "dodgerblue", color: "#fff" }}>
+          <MessageOutlined style={{ marginRight: '5px' }} />
+          SMS yuborish
+        </p>
+        <Modal
+          title="Ogohlantiruvchi xabar yuborish"
+          open={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="Yuborish"
+          cancelText="Bekor qilish"
+        >
+          <Input.TextArea
+            rows={4}
+            value={message_1 || message_2}
+            onChange={(e) => { setMessage_1(e.target.value) || setMessage_2(e.target.value) }}
+          />
+        </Modal>
       </div>
 
       <section style={{ padding: "0", margin: "0" }} className="section">
@@ -221,3 +246,7 @@ const PayController = () => {
 };
 
 export default PayController;
+
+
+
+

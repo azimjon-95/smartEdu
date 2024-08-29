@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import './style.css';
-import img from '../../../assets/mainLogo.png';
+import img from '../../../../assets/mainLogo.png';
 import QRCode from "react-qr-code";
 
 const LevelKids = React.forwardRef((props, ref) => {

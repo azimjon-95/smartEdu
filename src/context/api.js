@@ -18,13 +18,16 @@ export const api = createApi({
   reducerPath: "splitApi",
   baseQuery: baseQueryWithRetry,
   tagTypes: [
+    'messages',
     "Teacher",
     "Student",
     "Balans",
     "Attendances",
     "Payment",
     "Registration",
-    "Pdf"
+    "Pdf",
+    'expenses'
   ],
   endpoints: () => ({}),
 });
+

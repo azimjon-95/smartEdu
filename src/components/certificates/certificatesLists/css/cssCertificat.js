@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import './style.css'
-import Logo from '../../../assets/mainLogo.png';
+import Logo from '../../../../assets/mainLogo.png';
 import QRCode from "react-qr-code";
-import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
 
 
 const CssCertificat = React.forwardRef((props, ref) => {
   const [loading, setLoading] = useState(true);
 
-
-  const [zoom, setZoom] = useState(0.5);
 
   setTimeout(() => {
     setLoading(i => !i)

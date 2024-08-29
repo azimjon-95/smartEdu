@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import './style.css';
-import Iconca from '../../../assets/order.png';
-import alg from '../../../assets/mainLogo.png';
+import Iconca from '../../../../assets/order.png';
+import alg from '../../../../assets/mainLogo.png';
 import QRCode from "react-qr-code";
-import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
 
 
 const Foundation = React.forwardRef((props, ref) => {
-    const [loading, setLoading] = useState(true);
 
-
-    const [zoom, setZoom] = useState(0.5);
-
-    setTimeout(() => {
-        setLoading(i => !i)
-    }, 2000)
 
     const {
         name,

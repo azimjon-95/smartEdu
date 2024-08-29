@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Button, Space, Input, message, Modal, Tooltip, Dropdown, Row } from 'antd';
+import { Col, Button, Space, Input, message, Modal, Menu, Dropdown, Row } from 'antd';
 import { useGetStudentQuery, useDeleteStudentMutation, useUpdateStudentMutation } from '../../../context/studentsApi';
 import './style.css';  // Ensure this file contains the necessary styles
 import '../../../components/table-Css/css/main.min.css';
@@ -7,15 +7,19 @@ import '../../../components/table-Css/css/bulma.min.css';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { IoArrowBackOutline } from "react-icons/io5";
 import moment from 'moment';
-import { GiTwoCoins } from "react-icons/gi";
-import { MdArrowDropDown } from "react-icons/md";
+import { useUpdateRegistrationMutation, useGetAllRegistrationsQuery } from '../../../context/groupsApi'
+
+import { DownOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { capitalizeFirstLetter } from '../../../hook/CapitalizeFirstLitter';
-import { NumberFormat } from '../../../hook/NumberFormat';
+import { PhoneNumberFormat } from '../../../hook/NumberFormat';
+
 
 const { Search } = Input;
 
 const Students = () => {
     const { data } = useGetStudentQuery();
+    const { data: getGroups } = useGetAllRegistrationsQuery();
+    const [updateRegistration] = useUpdateRegistrationMutation();
     const [deleteStudent] = useDeleteStudentMutation();
     const [updateStudentsState] = useUpdateStudentMutation();
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -27,6 +31,7 @@ const Students = () => {
     const student = data?.filter((i) => i.groupId === id);
 
     const handleDelete = async (record) => {
+        const studentData = getGroups?.find((i) => i._id === record.groupId);
         Modal.confirm({
             title: 'Tasdiqlash',
             content: 'Siz haqiqatan ham ushbu talabani o\'chirmoqchimisiz?',
@@ -35,15 +40,25 @@ const Students = () => {
             cancelText: 'No',
             onOk: async () => {
                 try {
-                    await deleteStudent(record?._id);
+                    // Talabani o'chirish
+                    await deleteStudent(record._id);
+
+                    // Guruhdagi talabalar sonini yangilash
+                    const updatedGroupData = {
+                        ...studentData,
+                        studentsLength: studentData?.studentsLength - 1,
+                    };
+
+                    await updateRegistration({ id: studentData?._id, body: updatedGroupData });
                     message.success('Talaba muvaffaqiyatli o\'chirildi');
                 } catch (error) {
-                    message.warning('Talabani o\'chirishda xatolik yuz berdi');
+                    message.error('Talabani o\'chirishda xatolik yuz berdi');
                     console.error(error);
                 }
-            }
+            },
         });
     };
+
 
     const handleUpdate = (record) => {
         setCurrentStudent(record);
@@ -101,59 +116,25 @@ const Students = () => {
         navigate(-1);
     };
 
-    const handleCoinSelect = async (id, value) => {
-        const result = student?.find((i) => i._id === id);
-
-        if (!result) {
-            message.error('Talaba topilmadi');
-            return;
-        }
-
-        try {
-            const coinData = {
-                ...result,
-                coin: result.coin + value
-            };
-
-            await updateStudentsState({ id: result._id, body: coinData });
-
-            message.success("Coin muvaffaqiyatli qo'shildi");
-        } catch (error) {
-            message.error('Coin yangilashda xatolik yuz berdi');
-            console.error(error);
-        }
-    };
-
-    const coinMenu = (id) => [
-        {
-            key: '2',
-            label: (
-                <Button onClick={() => handleCoinSelect(id, 2)} style={{ width: '100%' }}>
-                    2 <GiTwoCoins style={{ color: 'gold', marginLeft: '8px' }} />
-                </Button>
-            ),
-        },
-        {
-            key: '5',
-            label: (
-                <Button onClick={() => handleCoinSelect(id, 5)} style={{ width: '100%' }}>
-                    5 <GiTwoCoins style={{ color: 'gold', marginLeft: '8px' }} />
-                </Button>
-            ),
-        },
-        {
-            key: '10',
-            label: (
-                <Button onClick={() => handleCoinSelect(id, 10)} style={{ width: '100%' }}>
-                    10 <GiTwoCoins style={{ color: 'gold', marginLeft: '8px' }} />
-                </Button>
-            )
-        }
-    ];
 
     const onSearch = (value) => {
         console.log('Izlash natijasi:', value);
     };
+
+
+    const renderActionsMenu = (record) => (
+        <Menu>
+            <Menu.Item icon={<EditOutlined />} onClick={() => handleUpdate(record)}>
+                Yangilash
+            </Menu.Item>
+            <Menu.Item icon={<DeleteOutlined />} onClick={() => handleDelete(record)}>
+                O'chirish
+            </Menu.Item>
+            <Menu.Item icon={<EyeOutlined />}>
+                <Link to={`/student/${record._id}`}>Yagona sahifa</Link>
+            </Menu.Item>
+        </Menu>
+    );
 
     return (
         <div className="reachStudents_box">
@@ -182,7 +163,8 @@ const Students = () => {
                                         <th>ID</th>
                                         <th>Ism Familya</th>
                                         <th>Yoshi</th>
-                                        <th>Ballar</th>
+                                        <th>Telefon raqami</th>
+                                        <th>Telefon raqami</th>
                                         <th>Davomat</th>
                                         <th>Harakatlar</th>
                                         <th></th>
@@ -195,35 +177,20 @@ const Students = () => {
                                             <td data-label="Ism Familya">{capitalizeFirstLetter(item.firstName)} {capitalizeFirstLetter(item.lastName)}</td>
                                             <td data-label="Yoshi">{moment().diff(item.dateOfBirth, 'years')}</td>
 
-                                            <td data-label="Ballar" className="is-progress-cell">
-                                                <Space size="middle">
-                                                    <span style={{ display: "flex", alignItems: "center", gap: "4px", width: "63px" }}><GiTwoCoins style={{ color: 'gold', fontSize: "20px" }} /> {NumberFormat(item.coin)} </span>
-                                                    <Dropdown menu={{ items: coinMenu(item?._id) }}>
-                                                        <Button>
-                                                            Coins<MdArrowDropDown />
-                                                        </Button>
-                                                    </Dropdown>
-                                                </Space>
-                                            </td>
+                                            <td data-label="Telefon raqami" className="is-progress-cell">{PhoneNumberFormat(item.studentPhoneNumber)}</td>
+                                            <td data-label="Telefon raqami" className="is-progress-cell">{PhoneNumberFormat(item.parentPhoneNumber)}</td>
                                             <td data-label="Davomat" className="is-progress-cell">
                                                 <Space size="middle">
                                                     <Button onClick={() => handleAddAttendance(item?._id)} type="primary">Sababli</Button>
                                                     <Button onClick={() => handleRemoveAttendance(item?._id)} className="red-button">Sababsiz</Button>
                                                 </Space>
                                             </td>
-                                            <td data-label="Harakatlar" className="is-actions-cell">
-                                                <Space size="middle">
-                                                    <Button onClick={() => handleUpdate(item)}>Yangilash</Button>
-                                                    <Tooltip title="O'chirish" color="red">
-                                                        <Button
-                                                            onClick={() => handleDelete(item)}
-                                                            style={{ backgroundColor: 'red', borderColor: '#D2B9B7', color: '#000' }}
-                                                            type="danger"
-                                                        >
-                                                            O'chirish
-                                                        </Button>
-                                                    </Tooltip>
-                                                </Space>
+                                            <td className="is-actions-cell">
+                                                <Dropdown overlay={renderActionsMenu(item)} trigger={['click']}>
+                                                    <Button type="primary">
+                                                        Harakatlar <DownOutlined />
+                                                    </Button>
+                                                </Dropdown>
                                             </td>
                                         </tr>
                                     ))}
@@ -242,32 +209,113 @@ const Students = () => {
             >
                 {currentStudent && (
                     <div>
-                        <Row>
-
-                            <Input
-                                name="firstName"
-                                label="Ism"
-                                placeholder="Ism"
-                                value={currentStudent.firstName}
-                                onChange={handleInputChange}
-                                style={{ marginBottom: '8px' }}
-                            />
-                            <Input
-                                name="lastName"
-                                label="Familiya"
-                                placeholder="Familiya"
-                                value={currentStudent.lastName}
-                                onChange={handleInputChange}
-                                style={{ marginBottom: '8px' }}
-                            />
-                            <Input
-                                name="dateOfBirth"
-                                label="Tug'ilgan sana"
-                                placeholder="YYYY-MM-DD"
-                                value={currentStudent.dateOfBirth}
-                                onChange={handleInputChange}
-                                style={{ marginBottom: '8px' }}
-                            />
+                        <Row gutter={[16, 16]} className="responsive-row">
+                            <Col span={8}>
+                                <Input
+                                    name="firstName"
+                                    label="Ism"
+                                    placeholder="Ism"
+                                    value={currentStudent.firstName}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="lastName"
+                                    label="Familiya"
+                                    placeholder="Familiya"
+                                    value={currentStudent.lastName}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="dateOfBirth"
+                                    label="Tug'ilgan sana"
+                                    placeholder="YYYY-MM-DD"
+                                    value={currentStudent.dateOfBirth}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]} className="responsive-row">
+                            <Col span={8}>
+                                <Input
+                                    name="studentPhoneNumber"
+                                    label="Talaba telefon raqami"
+                                    placeholder="Telefon raqami"
+                                    value={currentStudent.studentPhoneNumber}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="parentPhoneNumber"
+                                    label="Ota-ona telefon raqami"
+                                    placeholder="Telefon raqami"
+                                    value={currentStudent.parentPhoneNumber}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="address"
+                                    label="Manzil"
+                                    placeholder="Manzil"
+                                    value={currentStudent.address}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]} className="responsive-row">
+                            <Col span={8}>
+                                <Input
+                                    name="gender"
+                                    label="Jinsi"
+                                    placeholder="Jinsi"
+                                    value={currentStudent.gender}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="lessonTime"
+                                    label="Dars vaqti"
+                                    placeholder="Dars vaqti"
+                                    value={currentStudent.lessonTime}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                            <Col span={8}>
+                                <Input
+                                    name="middleName"
+                                    label="Otasining ismi"
+                                    placeholder="Otasining ismi"
+                                    value={currentStudent.middleName}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]} className="responsive-row">
+                            <Col span={8}>
+                                <Input
+                                    name="teacherFullName"
+                                    label="O'qituvchi"
+                                    placeholder="O'qituvchi"
+                                    value={currentStudent.teacherFullName}
+                                    onChange={handleInputChange}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </Col>
                         </Row>
                     </div>
                 )}
@@ -288,3 +336,17 @@ export default Students;
 
 
 
+
+// address: "SDF"
+// dateOfBirth:"2024-07-04T19:00:00.000Z"
+// firstName: "dxvbcfvbn"
+// gender: "male"
+// groupId: "669f55f13b4c607b2621542f"
+// lastName: "cvb nbnm"
+// lessonDate: "oddDays"
+// lessonTime: "08:00-10:00"
+// middleName: "vgbn"
+// parentPhoneNumber: "978263223"
+// payForLesson: 50000
+// studentPhoneNumber: "936766741"
+// teacherFullName: ['Azimjon Mamutaliyev']

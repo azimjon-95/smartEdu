@@ -1,98 +1,177 @@
 import React, { useState } from 'react';
-import { Table, Button, Space, Input, message, notification } from 'antd';
-import { useGetStudentQuery, useDeleteStudentMutation, useUpdateStudentsStateMutation } from '../../../context/studentsApi';
-import { useGetAllRegistrationsQuery, useUpdateRegistrationMutation } from '../../../context/groupsApi';
-import './style.css';
+import { Table, Button, Space, Input, message, Modal, Menu, Dropdown, Row } from 'antd';
+import { useGetStudentQuery, useDeleteStudentMutation, useUpdateStudentMutation } from '../../../context/studentsApi';
+import './style.css';  // Ensure this file contains the necessary styles
 import '../../../components/table-Css/css/main.min.css';
 import '../../../components/table-Css/css/bulma.min.css';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { IoArrowBackOutline } from "react-icons/io5";
 import moment from 'moment';
-import { PhoneNumberFormat } from '../../../hook/NumberFormat';
+import { DownOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { GiTwoCoins } from "react-icons/gi";
+import { MdArrowDropDown } from "react-icons/md";
+import { capitalizeFirstLetter } from '../../../hook/CapitalizeFirstLitter';
+import { NumberFormat } from '../../../hook/NumberFormat';
+
 
 const { Search } = Input;
 
-const StudentList = () => {
+const TeacherStudents = () => {
     const { data } = useGetStudentQuery();
     const [deleteStudent] = useDeleteStudentMutation();
-    const [updateRegistration] = useUpdateRegistrationMutation();
-    const { data: registrations } = useGetAllRegistrationsQuery();
-    const [updateStudentsState] = useUpdateStudentsStateMutation();
+    const [updateStudentsState] = useUpdateStudentMutation();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [currentStudent, setCurrentStudent] = useState(null);
 
     const navigate = useNavigate();
     const { id } = useParams();
-    const result = registrations?.filter((i) => i._id === id)[0];
 
-    // data ni studentlarga o'tkazamiz
-    const student = data?.filter((i) => i.groupId === id)
+    const student = data?.filter((i) => i.groupId === id);
 
-    // O'quvchini o'chirish
     const handleDelete = async (record) => {
-        console.log(record._id);
+        Modal.confirm({
+            title: 'Tasdiqlash',
+            content: 'Siz haqiqatan ham ushbu talabani o\'chirmoqchimisiz?',
+            okText: 'Ok',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: async () => {
+                try {
+                    await deleteStudent(record?._id);
+                    message.success('Talaba muvaffaqiyatli o\'chirildi');
+                } catch (error) {
+                    message.warning('Talabani o\'chirishda xatolik yuz berdi');
+                    console.error(error);
+                }
+            }
+        });
+    };
+
+    const handleUpdate = (record) => {
+        setCurrentStudent(record);
+        setIsModalVisible(true);
+    };
+
+    const handleModalOk = async () => {
         try {
-            await deleteStudent(record?._id);
-            message.success(`Talaba muvaffaqiyatli o'chirildi`);
+            await updateStudentsState({ id: currentStudent._id, body: currentStudent });
+            message.success('Talaba muvaffaqiyatli yangilandi');
+            setIsModalVisible(false);
         } catch (error) {
-            message.warning('Talabani o\'chirishda xatolik yuz berdi');
+            message.error('Talabani yangilashda xatolik yuz berdi');
             console.error(error);
         }
     };
 
-    // O'quvchini yangilash
-    const handleUpdate = (record) => {
-        console.log('Yangilash tugmasi bosildi:', record);
+    const handleModalCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setCurrentStudent({ ...currentStudent, [name]: value });
+    };
+
+    const handleAddAttendance = async (id) => {
+        if (!id) {
+            message.warning('O\'quvchi tanlanmagan');
+            return;
+        }
+
+        try {
+            message.success('Davomat muvaffaqiyatli qo\'shildi');
+        } catch (error) {
+            message.error('Davomat qo\'shishda xatolik yuz berdi');
+            console.error(error);
+        }
+    };
+
+    const handleRemoveAttendance = async (id) => {
+        if (!id) {
+            return;
+        }
+
+        try {
+            message.success('Davomat muvaffaqiyatli olib tashlandi');
+        } catch (error) {
+            message.error('Davomat olib tashishda xatolik yuz berdi');
+            console.error(error);
+        }
     };
 
     const handleClearClick = () => {
         navigate(-1);
     };
 
-    const [searchTerm, setSearchTerm] = useState('');
+    const handleCoinSelect = async (id, value) => {
+        const result = student?.find((i) => i._id === id);
+
+        if (!result) {
+            message.error('Talaba topilmadi');
+            return;
+        }
+
+        try {
+            const coinData = {
+                ...result,
+                coin: result.coin + value
+            };
+
+            await updateStudentsState({ id: result._id, body: coinData });
+
+            message.success("Coin muvaffaqiyatli qo'shildi");
+        } catch (error) {
+            message.error('Coin yangilashda xatolik yuz berdi');
+            console.error(error);
+        }
+    };
+
+    const coinMenu = (id) => [
+        {
+            key: '2',
+            label: (
+                <Button onClick={() => handleCoinSelect(id, 2)} style={{ width: '100%' }}>
+                    2 <GiTwoCoins style={{ color: 'gold', marginLeft: '8px' }} />
+                </Button>
+            ),
+        },
+        {
+            key: '5',
+            label: (
+                <Button onClick={() => handleCoinSelect(id, 5)} style={{ width: '100%' }}>
+                    5 <GiTwoCoins style={{ color: 'gold', marginLeft: '8px' }} />
+                </Button>
+            ),
+        },
+        {
+            key: '10',
+            label: (
+                <Button onClick={() => handleCoinSelect(id, 10)} style={{ width: '100%' }}>
+                    10 <GiTwoCoins style={{ color: 'gold', marginLeft: '8px' }} />
+                </Button>
+            )
+        }
+    ];
 
     const onSearch = (value) => {
-        setSearchTerm(value);
         console.log('Izlash natijasi:', value);
     };
 
 
-    const onFinish = async () => {
-        try {
-            const groupData = {
-                ...result,
-                state: 'active',
-            };
 
-            // Guruhni yangilash
-            const registrationResponse = await updateRegistration({ id: result?._id, body: groupData });
-            console.log(registrationResponse);
-
-            const studentData = {
-                state: 'active',
-            };
-            await updateStudentsState({ groupId: result?._id, body: studentData })
-                .then((res) => { console.log(res) })
-                .catch((err) => { console.log(err) });
-
-            notification.success({
-                message: 'Muvaffaqiyatli',
-                description: 'Guruh muvaffaqiyatli ravishda aktivlashdi.',
-            });
-
-            // Qo'shimcha amallar
-            navigate("/activeGroups");
-            handleClearClick();
-        } catch (error) {
-            console.error(error);
-            notification.error({
-                message: 'Xatolik',
-                description: 'Guruhni aktivlashtirishda xatolik yuz berdi.',
-            });
-        }
-    };
-
-
-
-
+    const renderActionsMenu = (record) => (
+        <Menu>
+            <Menu.Item icon={<EditOutlined />} onClick={() => handleUpdate(record)}>
+                Yangilash
+            </Menu.Item>
+            <Menu.Item icon={<DeleteOutlined />} onClick={() => handleDelete(record)}>
+                O'chirish
+            </Menu.Item>
+            <Menu.Item icon={<EyeOutlined />}>
+                <Link to={`/student/${record._id}`}>Yagona sahifa</Link>
+            </Menu.Item>
+        </Menu>
+    );
     return (
         <div className="reachStudents_box">
             <div className="reachStudents">
@@ -104,7 +183,6 @@ const StudentList = () => {
                     style={{ width: "60%" }}
                     enterButton={false}
                 />
-                <Button onClick={onFinish} type="primary">Darsni boshlash</Button>
 
                 <Link to={`/register/${id}`}>
                     <Button type="primary">Qabul</Button>
@@ -121,8 +199,8 @@ const StudentList = () => {
                                         <th>ID</th>
                                         <th>Ism Familya</th>
                                         <th>Yoshi</th>
-                                        <th>Tel</th>
-                                        <th>Ote ona telefon raqami</th>
+                                        <th>Ballar</th>
+                                        <th>Davomat</th>
                                         <th>Harakatlar</th>
                                         <th></th>
                                     </tr>
@@ -130,25 +208,32 @@ const StudentList = () => {
                                 <tbody>
                                     {student?.map((item, index) => (
                                         <tr key={index}>
-
                                             <td data-label="ID">{index + 1}</td>
-                                            <td data-label="Ism Familya">{item.firstName} {item.lastName}</td>
+                                            <td data-label="Ism Familya">{capitalizeFirstLetter(item.firstName)} {capitalizeFirstLetter(item.lastName)}</td>
                                             <td data-label="Yoshi">{moment().diff(item.dateOfBirth, 'years')}</td>
-                                            <td data-label="Tel" className="is-progress-cell">{PhoneNumberFormat(item.studentPhoneNumber)} </td>
-                                            <td data-label="Ote ona telefon raqami" className="is-progress-cell">{PhoneNumberFormat(item.parentPhoneNumber)} </td>
+
+                                            <td data-label="Ballar" className="is-progress-cell">
+                                                <Space size="middle">
+                                                    <span style={{ display: "flex", alignItems: "center", gap: "4px", width: "63px" }}><GiTwoCoins style={{ color: 'gold', fontSize: "20px" }} /> {NumberFormat(item.coin)} </span>
+                                                    <Dropdown menu={{ items: coinMenu(item?._id) }}>
+                                                        <Button>
+                                                            Coins<MdArrowDropDown />
+                                                        </Button>
+                                                    </Dropdown>
+                                                </Space>
+                                            </td>
+                                            <td data-label="Davomat" className="is-progress-cell">
+                                                <Space size="middle">
+                                                    <Button onClick={() => handleAddAttendance(item?._id)} type="primary">Sababli</Button>
+                                                    <Button onClick={() => handleRemoveAttendance(item?._id)} className="red-button">Sababsiz</Button>
+                                                </Space>
+                                            </td>
                                             <td className="is-actions-cell">
-                                                <div className="buttons is-right">
-                                                    <button onClick={() => handleUpdate(item)} className="button is-small is-primary" type="button">
-                                                        <span className="icon">
-                                                            <i className="mdi mdi-pencil"></i>
-                                                        </span>
-                                                    </button>
-                                                    <button onClick={() => handleDelete(item)} className="button is-small is-danger jb-modal" data-target="sample-modal" type="button">
-                                                        <span className="icon">
-                                                            <i className="mdi mdi-trash-can"></i>
-                                                        </span>
-                                                    </button>
-                                                </div>
+                                                <Dropdown overlay={renderActionsMenu(item)} trigger={['click']}>
+                                                    <Button type="primary">
+                                                        Harakatlar <DownOutlined />
+                                                    </Button>
+                                                </Dropdown>
                                             </td>
                                         </tr>
                                     ))}
@@ -158,8 +243,50 @@ const StudentList = () => {
                     </div>
                 </div>
             </section>
+
+            <Modal
+                title="Talaba ma'lumotlarini yangilash"
+                open={isModalVisible}
+                onOk={handleModalOk}
+                onCancel={handleModalCancel}
+            >
+                {currentStudent && (
+                    <div>
+                        <Row>
+
+                            <Input
+                                name="firstName"
+                                label="Ism"
+                                placeholder="Ism"
+                                value={currentStudent.firstName}
+                                onChange={handleInputChange}
+                                style={{ marginBottom: '8px' }}
+                            />
+                            <Input
+                                name="lastName"
+                                label="Familiya"
+                                placeholder="Familiya"
+                                value={currentStudent.lastName}
+                                onChange={handleInputChange}
+                                style={{ marginBottom: '8px' }}
+                            />
+                            <Input
+                                name="dateOfBirth"
+                                label="Tug'ilgan sana"
+                                placeholder="YYYY-MM-DD"
+                                value={currentStudent.dateOfBirth}
+                                onChange={handleInputChange}
+                                style={{ marginBottom: '8px' }}
+                            />
+                        </Row>
+                    </div>
+                )}
+            </Modal>
         </div>
     );
 };
 
-export default StudentList;
+export default TeacherStudents;
+
+
+

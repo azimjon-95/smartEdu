@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import './style.css'
-import Logo from '../../../assets/mainLogo.png';
+import Logo from '../../../../assets/mainLogo.png';
 import QRCode from "react-qr-code";
 
 

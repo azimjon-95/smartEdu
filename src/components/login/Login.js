@@ -40,6 +40,7 @@ function Login({ setIsLoggedIn }) {
         setLoading(true);
         try {
             const res = await axios.post("/api/teacher/signin", data);
+            console.log(res);
             if (res.data.token) {
                 const { token, teacherType, _id } = res.data.teacher;
                 console.log(res.data.teacher);

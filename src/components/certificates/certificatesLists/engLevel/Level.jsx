@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import './style.css';
-import img from '../../../assets/mainLogo.png';
+import img from '../../../../assets/mainLogo.png';
 import QRCode from "react-qr-code";
 
 const Level = React.forwardRef((props, ref) => {
