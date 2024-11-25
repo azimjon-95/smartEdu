@@ -1,0 +1,202 @@
+/* Table Styling - Making it more compact */
+.Xarajat_right .ant-table {
+    font-size: 14px; /* Reduce font size */
+  }
+  
+  .Xarajat_right .ant-table th, .Xarajat_right .ant-table td {
+    padding: 8px 12px; /* Reduce padding in table cells */
+    text-align: center; /* Center-align the text */
+  }
+  
+  .Xarajat_right .ant-table-thead > tr > th {
+    background-color: #f0f0f0; /* Lighter background for table header */
+    font-weight: 600; /* Make header bold */
+  }
+  
+  .Xarajat_right .ant-table-tbody > tr > td {
+    font-size: 14px; /* Smaller font size for body cells */
+  }
+  
+  .Xarajat_right .ant-table-row {
+    height: 40px; /* Adjust row height to make it smaller */
+  }
+  
+  .Xarajat_right .ant-pagination {
+    font-size: 12px;
+    padding: 8px 0;
+  }
+  
+  /* Styling for the overall layout */
+  .Xarajat_left,
+  .Xarajat_right {
+    height:  calc(100vh - 70px);
+    border-radius: 10px;
+    border: 2px solid white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: auto;
+  }
+  
+  .Xarajat_left {
+    width: 35%;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .Xarajat_right {
+    width: 65%;
+    padding: 5px;
+    background-color: #fff;
+    margin-left: 5px;
+  }
+  .Xarajat_right td{
+    text-wrap: nowrap;
+    text-align: start !important;
+    font-size: 12px !important;
+  }
+  
+  .xarajatlar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+  }
+  
+  h3, h4 {
+    margin-bottom: 10px;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Button Styles */
+  button.ant-btn-primary {
+    background-color: #1890ff;
+    border-color: #1890ff;
+  }
+  
+  button.ant-btn-primary:hover {
+    background-color: #40a9ff;
+    border-color: #40a9ff;
+  }
+  
+  /* Custom Input styling */
+  .custom-input {
+    padding: 12px 16px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #1890ff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-input:hover, .custom-input:focus {
+    border-color: #40a9ff;
+    box-shadow: 0 0 8px rgba(24, 144, 255, 0.2);
+  }
+  
+  /* Time filter select styling */
+  .Xarajat_right .ant-form-item {
+    margin-top: 16px;
+  }
+  
+  .Xarajat_right .ant-select {
+    width: 100%;
+    font-size: 16px;
+  }
+  .Stayle{
+    display: flex;
+    gap: 10px !important;
+    text-align: start !important;
+  
+  }
+  
+  .Xarajat_right .ant-select-selector {
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+  
+  /* Button container styling */
+  .Xarajat_right .ant-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .Xarajat_right .ant-btn {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+  }
+  
+  .Xarajat_right .ant-btn:hover {
+    opacity: 0.8;
+  }
+  
+  /* Income (Green) button */
+  .Xarajat_right .ant-btn[style*="background-color: green"] {
+    background-color: green;
+    border-color: green;
+  }
+  
+  /* Expense (Red) button */
+  .Xarajat_right .ant-btn[style*="background-color: red"] {
+    background-color: red;
+    border-color: red;
+  }
+  
+  /* Default button */
+  .Xarajat_right .ant-btn[style*="background-color: #1890ff"] {
+    background-color: #1890ff;
+    border-color: #1890ff;
+  }
+  
+  /* Arrow icons styling */
+  .Xarajat_right .ant-btn .anticon {
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  
+  .Xarajat_right .ant-btn .anticon svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  /* Adjustments for input and button side-by-side */
+  .Xarajat_right .input-button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .Xarajat_right .input-button-row .ant-col {
+    flex: 1;
+  }
+  /* Adjust Input field styling */
+  
+  /* ========Search========== */
+  .Xarajat_filter{
+    display: flex;
+    justify-content: space-around
+  
+  }
+  .xarajat-filter-box{
+    width: 45%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .xarajat-filter-box1{
+    width: 45%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

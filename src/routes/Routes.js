@@ -13,7 +13,7 @@ import Balans from '../page/owner/balans/Balans';
 import Single_page from '../components/workersSinglePage/WorkersSinglePage';
 import Students from '../page/reception/activeGroups/students';
 import Groups from '../page/teacher/groups/Groups';
-import Certificat from '../components/certificates/createCertificat/Certificat';
+import Xarajatlar from '../components/Xarajatlar/Xarajatlar';
 
 export const routes = [
     { path: '/register/:id', element: <Register /> },
@@ -25,10 +25,11 @@ export const routes = [
     { path: '/payController', element: <PayController /> },
     { path: '/balans', element: <Balans /> },
     { path: '/groups', element: <Groups /> },
-    { path: '/certificate', element: <Certificat /> },
     { path: '/single_page', element: <Single_page /> },
     { path: '/studentList/:id', element: <StudentList /> },
     { path: '/students/:id', element: <Students /> },
+    { path: '/expenses', element: <Xarajatlar /> },
+
 
     { path: '/', element: <Outlet /> },
 ];
